@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://36pl682kd7n2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3f3vn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6nm2"]
+albedo_color = Color(0, 0.423529, 0, 1)
+
+[node name="Herbivore" type="Node3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.125, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_3f3vn")
+surface_material_override/0 = SubResource("StandardMaterial3D_v6nm2")

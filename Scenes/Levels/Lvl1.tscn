@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dxpkw4sa3tr5j"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hrb0c"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_t4ih0"]
+sky_material = SubResource("ProceduralSkyMaterial_hrb0c")
+
+[sub_resource type="Environment" id="Environment_wok3x"]
+background_mode = 2
+sky = SubResource("Sky_t4ih0")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gqust"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ycr03"]
+albedo_color = Color(0, 0.278431, 0, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hh7qd"]
+points = PackedVector3Array(1.01587, 0.015873, 1.01587, -1.01587, -0.015873, -1.01587, -1.01587, 0.015873, -1.01587, 1.01587, -0.015873, -1.01587, -1.01587, -0.015873, 1.01587, -1.01587, 0.015873, 1.01587, 1.01587, 0.015873, -1.01587, 1.01587, -0.015873, 1.01587)
+
+[node name="Spatial" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wok3x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 2.30829, -1.5523)
+shadow_enabled = true
+
+[node name="Floor_tile_1" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+mesh = SubResource("PlaneMesh_gqust")
+surface_material_override/0 = SubResource("StandardMaterial3D_ycr03")
+
+[node name="Floor_tile_1_mesh" type="StaticBody3D" parent="Floor_tile_1"]
+
+[node name="Floor_tile_1_collision" type="CollisionShape3D" parent="Floor_tile_1/Floor_tile_1_mesh"]
+shape = SubResource("ConvexPolygonShape3D_hh7qd")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.464034, 0.471733, 5.42059)
