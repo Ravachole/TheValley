@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dw77v0ci04smr"
-path="res://.godot/imported/Lvl1.dae-7d0c51a1fde9cd2300b47e87f331ccfb.scn"
+uid="uid://cdbn87lrpe4bi"
+path="res://.godot/imported/Lvl1.glb-e4dd286858954cc3a3b673fb50cde87f.scn"
 
 [deps]
 
-source_file="res://Assets/Lvl1/Lvl1.dae"
-dest_files=["res://.godot/imported/Lvl1.dae-7d0c51a1fde9cd2300b47e87f331ccfb.scn"]
+source_file="res://Assets/Maps/Lvl1.glb"
+dest_files=["res://.godot/imported/Lvl1.glb-e4dd286858954cc3a3b673fb50cde87f.scn"]
 
 [params]
 
@@ -33,14 +33,12 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "nodes": {
-"PATH:AnimationPlayer": {
-"import/skip_import": true
-},
-"PATH:Camera": {
-"import/skip_import": true
-},
-"PATH:Light": {
-"import/skip_import": true
+"PATH:Plane": {
+"generate/navmesh": 1,
+"generate/physics": true,
+"physics/shape_type": 2
 }
 }
 }
+gltf/naming_version=1
+gltf/embedded_image_handling=1

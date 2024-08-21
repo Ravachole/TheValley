@@ -2,22 +2,25 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6nx5dt8g353b"
-path.bptc="res://.godot/imported/grass_Default_1.png-023a5c03d3eb4456580fdb301abd59f7.bptc.ctex"
+uid="uid://c6ymmne4fbpyd"
+path.s3tc="res://.godot/imported/Lvl1_stone_tile_1.png-1d4bd77de5d237c1cd4886b32d76f267.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "7fa6227eb572b7793a761343fd0f2af0"
+}
 
 [deps]
 
-source_file="res://Assets/Floors/grass_Default_1.png"
-dest_files=["res://.godot/imported/grass_Default_1.png-023a5c03d3eb4456580fdb301abd59f7.bptc.ctex"]
+source_file="res://Assets/Maps/Lvl1_stone_tile_1.png"
+dest_files=["res://.godot/imported/Lvl1_stone_tile_1.png-1d4bd77de5d237c1cd4886b32d76f267.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0

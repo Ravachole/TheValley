@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0mpva1kovrpi"]
+
+[ext_resource type="PackedScene" uid="uid://cdbn87lrpe4bi" path="res://Assets/Maps/Lvl1.glb" id="1_oi00t"]
+[ext_resource type="PackedScene" uid="uid://nauco1oweg72" path="res://Assets/Actors/Bizut.tscn" id="2_u44qk"]
+
+[node name="TheValley" type="Node3D"]
+
+[node name="Lvl1" parent="." instance=ExtResource("1_oi00t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.330767, 0, -0.30532)
+
+[node name="Bizut" parent="." instance=ExtResource("2_u44qk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.15435)

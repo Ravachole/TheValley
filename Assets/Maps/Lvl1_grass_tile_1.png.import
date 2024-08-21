@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhao7k3450ami"
-path.s3tc="res://.godot/imported/water_tile_1.jpg-f24cb024655facb6029a6ccbc2292487.s3tc.ctex"
+uid="uid://bg7oi57nfltd0"
+path.s3tc="res://.godot/imported/Lvl1_grass_tile_1.png-131f086ee75f08a0f63c0ac0e51406ab.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "193711f6467dae5fe33fb982c6dd809b"
+}
 
 [deps]
 
-source_file="res://Assets/Lvl1/water_tile_1.jpg"
-dest_files=["res://.godot/imported/water_tile_1.jpg-f24cb024655facb6029a6ccbc2292487.s3tc.ctex"]
+source_file="res://Assets/Maps/Lvl1_grass_tile_1.png"
+dest_files=["res://.godot/imported/Lvl1_grass_tile_1.png-131f086ee75f08a0f63c0ac0e51406ab.s3tc.ctex"]
 
 [params]
 

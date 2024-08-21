@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TheValley"
-run/main_scene="res://Assets/Lvl1/valley_1.tscn"
+run/main_scene="res://Scenes/the_valley.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
