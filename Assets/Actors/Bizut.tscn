@@ -32,6 +32,6 @@ transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0.0357895, 1.18642, -0.
 mesh = SubResource("CapsuleMesh_pbpnd")
 
 [node name="PlayerCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.897066, 0.441897, 0, -0.441897, 0.897066, 0, 2.73894, 2.51171)
+transform = Transform3D(1, 0, 0, 0, 0.897066, 0.441897, 0, -0.441897, 0.897066, 0, 3.49739, 3.44166)
 environment = SubResource("Environment_0t6gm")
 current = true

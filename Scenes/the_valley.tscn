@@ -10,3 +10,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.330767, 0, -0.30532)
 
 [node name="Bizut" parent="." instance=ExtResource("2_u44qk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.15435)
+cameraLimits = PackedFloat32Array(-10, 40)
