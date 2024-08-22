@@ -13,7 +13,6 @@ public partial class Herbivore : CharacterBody3D
 		SLEEP = 5
 	}
 
-	[Export] private float Speed = 5.0f;
 	[Export] private float thirst = 100.0f;
 	[Export] private float hunger = 100.0f;
 	[Export] private float energy = 100.0f;
@@ -52,9 +51,8 @@ public partial class Herbivore : CharacterBody3D
     public override void _Ready(){
         navigationAgent3D = GetNode("NavigationAgent3D") as NavigationAgent3D;
     }
-    public override void _PhysicsProcess(double delta){
-		void = 
-	}
+    // public override void _PhysicsProcess(double delta){
+	// }
 
 
 
