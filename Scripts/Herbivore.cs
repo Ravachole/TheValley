@@ -42,15 +42,16 @@ public partial class Herbivore : CharacterBody3D
 			LookAt(moveDirection);
 			//play move Animation
 			Velocity = Velocity.MoveToward(moveDirection * maxSpeed, acceleration);
-		else 
+		}
+		else{
 			Idle();
 		}
 		MoveAndSlide();
 	}
 
-    public override void _Ready(){
-        navigationAgent3D = GetNode("NavigationAgent3D") as NavigationAgent3D;
-    }
+    // public override void _Ready(){
+    //     navigationAgent3D = GetNode("NavigationAgent3D") as NavigationAgent3D;
+    // }
     // public override void _PhysicsProcess(double delta){
 	// }
 
