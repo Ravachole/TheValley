@@ -15,6 +15,11 @@ run/main_scene="res://Scenes/the_valley.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
+
 [display]
 
 window/size/viewport_width=3820
@@ -24,6 +29,10 @@ window/size/mode=2
 [dotnet]
 
 project/assembly_name="TheValley"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/beehave/plugin.cfg")
 
 [rendering]
 

@@ -8,9 +8,9 @@ public partial class BasicMovement : CharacterBody3D
 	public const float JumpVelocity = 4.5f;
 	// End Physics variables
 	// Mouse Variables for player 
-	[Export] private float mouseSensitivityX = 0.3f;
-	[Export] private float mouseSensitivityY = 0.2f;
-	[Export] private float[] cameraLimits = {10, 40};
+	[Export] private float mouseHorizontalSens = 0.3f;
+	[Export] private float mouseVerticalSens = 0.2f;
+	[Export] private float[] cameraLimits = {-10, 10};
 	public Vector2 mouseDelta;
 	// End Mouse variables for player
 
@@ -35,10 +35,11 @@ public partial class BasicMovement : CharacterBody3D
 			// Get mouse mvmt
 			mouseDelta = eventMouseMotion.Relative;
 			// Rotation player
-			RotateY(Mathf.DegToRad(-mouseDelta.X*mouseSensitivityX));
+			RotateY(Mathf.DegToRad(-mouseDelta.X*mouseHorizontalSens));
 			
 			// Rotation Camera
-			camera.RotateX(Mathf.DegToRad(-mouseDelta.Y*mouseSensitivityY));
+			camera.RotateX(Mathf.DegToRad(-mouseDelta.Y*mouseVerticalSens));
+			ClampCamera();
 		}
     }
     public override void _PhysicsProcess(double delta)
@@ -74,9 +75,8 @@ public partial class BasicMovement : CharacterBody3D
 
 		Velocity = velocity;
 		MoveAndSlide();
-		ClampCamera();
 	}
-	// Limit the vertical rotation of camera
+	// Limit the (vertical) rotation of camera
 	private void ClampCamera() {
 		Vector3 clampedRotation = camera.RotationDegrees;
 		clampedRotation.X = Mathf.Clamp(clampedRotation.X, cameraLimits[0], cameraLimits[1]);
