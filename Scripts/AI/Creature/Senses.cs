@@ -23,11 +23,30 @@ public partial class Senses : Area3D {
     }
     // Remove the zone when exiting it TODO : implement same with predators, others creatures
     public void OnAreaExited(Area3D currentArea) {
-        for (int i = 0; i < currentResources.Length; i++)
-        {
+        for (int i = 0; i < currentResources.Length; i++) {
             if (currentResources[i] == currentArea) {
                 currentResources[i].RemoveChild(currentArea);
             }
+        }
+    }
+
+    // Check resources visibility
+    public Node3D getResource() {
+        if (currentResources.Length > 0) {
+            if (checkLos) {
+                if (HasLos(currentResources[0].GlobalPosition)) {
+                    return currentResources[0] as Node3D;
+                } 
+                else {
+                    return null;
+                }
+            } 
+            else {
+                return currentResources[0] as Node3D;
+            }
+        } 
+        else {
+            return null;
         }
     }
     // Check if AI is seing smthg

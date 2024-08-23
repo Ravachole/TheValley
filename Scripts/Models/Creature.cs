@@ -1,5 +1,5 @@
 using Godot;
-using static Status;
+using static Metabolism;
 
 
 public abstract partial class Creature : CharacterBody3D
@@ -13,6 +13,9 @@ public abstract partial class Creature : CharacterBody3D
 		SLEEP = 5
 	}
 
+	private Health health;
+	private Stamina stamina;
+	private Growth growth;
     private Thirst thirst;
     private Hunger hunger;
     private Energy energy;
