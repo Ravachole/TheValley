@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://nauco1oweg72"]
 
-[ext_resource type="Script" path="res://Scripts/BasicMovement.cs" id="1_vhyyl"]
+[ext_resource type="Script" path="res://Scripts/Player/BasicMovement.cs" id="1_3detr"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jso4g"]
 height = 2.62451
@@ -21,7 +21,7 @@ ambient_light_source = 3
 ambient_light_color = Color(0.698112, 0.736371, 0.779099, 1)
 
 [node name="Bizut" type="CharacterBody3D"]
-script = ExtResource("1_vhyyl")
+script = ExtResource("1_3detr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)

@@ -1,20 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctp7mpcx5sml2"]
+[gd_scene load_steps=3 format=3 uid="uid://ctp7mpcx5sml2"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_px86m"]
-[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence_star.gd" id="2_g4s7p"]
-[ext_resource type="Script" path="res://Scripts/AI/hungry.gd" id="3_sgm08"]
-[ext_resource type="Script" path="res://Scripts/AI/thirsty.gd" id="4_t4k04"]
+[ext_resource type="Script" path="res://Scripts/AI/GetResources.gd" id="4_dpif7"]
 
 [node name="HerbivoreAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_px86m")
-blackboard = NodePath("@Node@17371")
+blackboard = NodePath("@Node@17374")
 actor = NodePath("")
 
-[node name="DrinkWater" type="Node" parent="."]
-script = ExtResource("2_g4s7p")
-
-[node name="Hungry" type="Node" parent="DrinkWater"]
-script = ExtResource("3_sgm08")
-
-[node name="Thirsty" type="Node" parent="DrinkWater"]
-script = ExtResource("4_t4k04")
+[node name="GetResources" type="Node" parent="."]
+script = ExtResource("4_dpif7")

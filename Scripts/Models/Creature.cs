@@ -13,6 +13,7 @@ public abstract partial class Creature : CharacterBody3D
 		SLEEP = 5
 	}
 
+	// Metabolism stats
 	private Health health;
 	private Stamina stamina;
 	private Growth growth;
@@ -20,6 +21,8 @@ public abstract partial class Creature : CharacterBody3D
     private Hunger hunger;
     private Energy energy;
     private Stress stress;
+	// End Metabolism stats
+	private Senses senses = new Senses();
 	private int currentState = (int)AnimationState.IDLE;
 	private NavigationAgent3D navigationAgent3D;
 	private Vector3 moveDirection;

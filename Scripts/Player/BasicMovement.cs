@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 public partial class BasicMovement : CharacterBody3D
 {
@@ -42,6 +43,7 @@ public partial class BasicMovement : CharacterBody3D
 			ClampCamera();
 		}
     }
+
     public override void _PhysicsProcess(double delta)
 	{
 		Vector3 velocity = Velocity;
@@ -57,7 +59,6 @@ public partial class BasicMovement : CharacterBody3D
 		{
 			velocity.Y = JumpVelocity;
 		}
-
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");

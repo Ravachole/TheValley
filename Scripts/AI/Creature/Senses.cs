@@ -1,6 +1,5 @@
 
 using Godot;
-
 public partial class Senses : Area3D {
     [Export] public Area3D selfCollider;
     [Export] public Area3D[] currentResources;
@@ -11,12 +10,15 @@ public partial class Senses : Area3D {
     public override void _Ready()
     {
         base._Ready();
+        Area3D area = GetNode("AreaLake/Lake") as Area3D;
+        area.Connect("OnAreaEntered", new Callable(this, "OnAreaEntered"));
         if (checkLos) {
             rayCast3D = GetNode("DirectVisionRayCast") as RayCast3D;
         }
     }
     // If enter a zone, ignore his self collider then add the zone in his "radar"
     public void OnAreaEntered(Area3D currentArea) {
+        GD.Print("OnAreaEntered");
         if (currentArea != selfCollider) {
             currentResources[currentResources.Length+1] = currentArea;
         }
@@ -24,7 +26,7 @@ public partial class Senses : Area3D {
     // Remove the zone when exiting it TODO : implement same with predators, others creatures
     public void OnAreaExited(Area3D currentArea) {
         for (int i = 0; i < currentResources.Length; i++) {
-            if (currentResources[i] == currentArea) {
+            if (currentResources[i] != null && currentResources[i] == currentArea) {
                 currentResources[i].RemoveChild(currentArea);
             }
         }
@@ -32,7 +34,7 @@ public partial class Senses : Area3D {
 
     // Check resources visibility
     public Node3D getResource() {
-        if (currentResources.Length > 0) {
+        if (currentResources != null && currentResources.Length > 0) {
             if (checkLos) {
                 if (HasLos(currentResources[0].GlobalPosition)) {
                     return currentResources[0] as Node3D;
