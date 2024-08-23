@@ -1,10 +1,10 @@
 using Godot;
-using System;
+using static Status;
 
-public partial class Herbivore : CharacterBody3D
+
+public abstract partial class Creature : CharacterBody3D
 {
-	// Enum for animations & states
-	enum AnimationState {
+    enum AnimationState {
 		IDLE = 0,
 		WALK = 1,
 		RUN = 2,
@@ -13,13 +13,12 @@ public partial class Herbivore : CharacterBody3D
 		SLEEP = 5
 	}
 
-	[Export] private float thirst = 100.0f;
-	[Export] private float hunger = 100.0f;
-	[Export] private float energy = 100.0f;
-	[Export] private float stress = 0.0f;
-
-	private NavigationAgent3D navigationAgent3D;
+    private Thirst thirst;
+    private Hunger hunger;
+    private Energy energy;
+    private Stress stress;
 	private int currentState = (int)AnimationState.IDLE;
+	private NavigationAgent3D navigationAgent3D;
 	private Vector3 moveDirection;
 
 // Example method of state handling
@@ -48,14 +47,4 @@ public partial class Herbivore : CharacterBody3D
 		}
 		MoveAndSlide();
 	}
-
-    // public override void _Ready(){
-    //     navigationAgent3D = GetNode("NavigationAgent3D") as NavigationAgent3D;
-    // }
-    // public override void _PhysicsProcess(double delta){
-	// }
-
-
-
-
 }

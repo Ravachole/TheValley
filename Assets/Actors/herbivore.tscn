@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk0smly06u0id"]
+[gd_scene load_steps=4 format=3 uid="uid://dk0smly06u0id"]
 
 [ext_resource type="Script" path="res://Scripts/Herbivore.cs" id="1_vfuk2"]
-[ext_resource type="PackedScene" uid="uid://ctp7mpcx5sml2" path="res://Scripts/AI/herbivore_ai.tscn" id="2_s071q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s42s1"]
 
@@ -20,9 +19,5 @@ skeleton = NodePath("../Collision")
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 2)
 
-[node name="Raycast" type="RayCast3D" parent="."]
+[node name="DirectVisionRayCast" type="RayCast3D" parent="."]
 collide_with_areas = true
-
-[node name="HerbivoreAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_s071q")]
-blackboard = NodePath("@Node@27017")
-actor = NodePath("../Raycast")
