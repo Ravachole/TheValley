@@ -26,4 +26,4 @@ shape = SubResource("BoxShape3D_ldxjp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6079, -0.920883, 5.22919)
 
 [node name="Herbivore" parent="." instance=ExtResource("3_84smq")]
-transform = Transform3D(1, 0, 0, 0, 0.959614, -0.28132, 0, 0.28132, 0.959614, -7.20323, 0, 5.65163)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 5)

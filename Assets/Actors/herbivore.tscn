@@ -23,6 +23,5 @@ transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 
 [node name="DirectVisionRayCast" type="RayCast3D" parent="."]
 collide_with_areas = true
 
-[node name="HerbivoreAI" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_s071q")]
-blackboard = NodePath("@Node@31404")
-actor = NodePath("..")
+[node name="HerbivoreAI" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_s071q")]
+blackboard = NodePath("@Node@23677")

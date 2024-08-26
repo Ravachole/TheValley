@@ -25,7 +25,8 @@ public abstract partial class Creature : CharacterBody3D
 	private Senses senses = new Senses();
 	private int currentState = (int)AnimationState.IDLE;
 	private NavigationAgent3D navigationAgent3D;
-	private Vector3 moveDirection;
+	protected Vector3 moveDirection;
+	[Export] float wanderRadius = 5;
 
 // Example method of state handling
 	private void Idle() {
@@ -43,14 +44,17 @@ public abstract partial class Creature : CharacterBody3D
 	}
 	// Add animation in params
 	private void MoveState(float maxSpeed, float acceleration){
-		if (moveDirection != new Vector3(0, 0, 0)){
-			LookAt(moveDirection);
-			//play move Animation
-			Velocity = Velocity.MoveToward(moveDirection * maxSpeed, acceleration);
-		}
-		else{
-			Idle();
-		}
+		// if (moveDirection != new Vector3(0, 0, 0)){
+		Vector3 temp = moveDirection + GlobalPosition;
+		// LookAt(moveDirection);
+		//play move Animation
+		Velocity = Velocity.MoveToward(temp * maxSpeed, acceleration);
+		// GD.Print("Velo : " + Velocity);
+
+		// }
+		// else{
+		// 	Idle();
+		// }
 		MoveAndSlide();
 	}
 }

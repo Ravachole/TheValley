@@ -1,9 +1,9 @@
 
-class_name GetResources extends ConditionLeaf
+class_name GetAreas extends ConditionLeaf
 
 func tick(actor:Node, _blackboard:Blackboard) -> int:
 	
-	var _e = actor.senses.getResource()
+	var _e = actor.senses.getAreas()
 	if _e == null:
 		return FAILURE
 	else:

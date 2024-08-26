@@ -1,12 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctp7mpcx5sml2"]
+[gd_scene load_steps=4 format=3 uid="uid://ctp7mpcx5sml2"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_px86m"]
-[ext_resource type="Script" path="res://Scripts/AI/GetResources.gd" id="4_dpif7"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/decorators/delayer.gd" id="2_i8wix"]
+[ext_resource type="Script" path="res://Scripts/AI/BH/BHIdle.gd" id="3_crbqp"]
 
 [node name="HerbivoreAI" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_px86m")
 blackboard = NodePath("@Node@17374")
 actor = NodePath("")
 
-[node name="GetResources" type="Node" parent="."]
-script = ExtResource("4_dpif7")
+[node name="DelayDecorator" type="Node" parent="."]
+script = ExtResource("2_i8wix")
+wait_time = 20.0
+
+[node name="Idle" type="Node" parent="DelayDecorator"]
+script = ExtResource("3_crbqp")
