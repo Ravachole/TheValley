@@ -1,19 +1,12 @@
+using System;
 using Godot;
 using static Metabolism;
+using System.Linq;
 
 
 public abstract partial class Creature : CharacterBody3D
 {
-    enum AnimationState {
-		IDLE = 0,
-		WALK = 1,
-		RUN = 2,
-		DRINK = 3,
-		EAT = 4,
-		SLEEP = 5
-	}
-
-	// Metabolism stats
+	// Metabolism stats (update everything to protected => private make little sense in an abstract class)
 	private Health health;
 	private Stamina stamina;
 	private Growth growth;
@@ -22,39 +15,36 @@ public abstract partial class Creature : CharacterBody3D
     private Energy energy;
     private Stress stress;
 	// End Metabolism stats
-	private Senses senses = new Senses();
-	private int currentState = (int)AnimationState.IDLE;
-	private NavigationAgent3D navigationAgent3D;
-	protected Vector3 moveDirection;
-	[Export] float wanderRadius = 5;
 
-// Example method of state handling
-	private void Idle() {
-		currentState = (int)AnimationState.IDLE;
-		//Reset speed when idle
-		Velocity = new Vector3(0, 0, 0);
-		//Handle Sound
-	}
-	private void Drink() {
-		currentState = (int)AnimationState.DRINK;
-	}
+	// TODO : REFACTOR AREA DETECTION IN SENSES
+	// private Senses senses = new Senses();
 
-	private void Move(Vector3 direction){
-		moveDirection = direction;
-	}
-	// Add animation in params
-	private void MoveState(float maxSpeed, float acceleration){
-		// if (moveDirection != new Vector3(0, 0, 0)){
-		Vector3 temp = moveDirection + GlobalPosition;
-		// LookAt(moveDirection);
-		//play move Animation
-		Velocity = Velocity.MoveToward(temp * maxSpeed, acceleration);
-		// GD.Print("Velo : " + Velocity);
+	// Public custom values
+	[Export] public float Speed = 10f;
+	[Export] public float DetectionRadius = 15f;
+	// End public custom values
+   	protected Vector3 _velocity = Vector3.Zero;
+    protected Area3D _waterDetectionArea;
+    protected Area3D _foodDetectionArea;
+	// Abstracts mandatory methods
+	public abstract override void _PhysicsProcess(double delta);
+	public abstract override void _Ready();
+	// End Abstracts mandatory methods
+	protected void OnWaterEntered(Node3D body)
+    {
+        if (body.IsInGroup("water"))
+        {
+            // Moving to water logic
+            _velocity = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized() * Speed;
+        }
+    }
 
-		// }
-		// else{
-		// 	Idle();
-		// }
-		MoveAndSlide();
-	}
+    protected void OnFoodEntered(Node3D body)
+    {
+        if (body.IsInGroup("food"))
+        {
+            // Moving to food logic
+            _velocity = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized() * Speed;
+        }
+    }
 }

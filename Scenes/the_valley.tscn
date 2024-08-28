@@ -4,26 +4,23 @@
 [ext_resource type="PackedScene" uid="uid://nauco1oweg72" path="res://Assets/Actors/Bizut.tscn" id="2_u44qk"]
 [ext_resource type="PackedScene" uid="uid://dk0smly06u0id" path="res://Assets/Actors/herbivore.tscn" id="3_84smq"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ldxjp"]
-size = Vector3(1, 1, 0.914063)
+[sub_resource type="SphereShape3D" id="SphereShape3D_d5su1"]
 
 [node name="TheValley" type="Node3D"]
 
 [node name="Lvl1" parent="." instance=ExtResource("1_oi00t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.330767, 0, -0.30532)
 
-[node name="AreaLake" type="Area3D" parent="."]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 23.0675, 0.236076, -0.116218)
-
-[node name="Lake" type="CollisionShape3D" parent="AreaLake"]
-unique_name_in_owner = true
-transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -4.29, 0, 1.719)
-shape = SubResource("BoxShape3D_ldxjp")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-
 [node name="Bizut" parent="." instance=ExtResource("2_u44qk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6079, -0.920883, 5.22919)
 
 [node name="Herbivore" parent="." instance=ExtResource("3_84smq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 5)
+collision_layer = 3
+collision_mask = 3
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["food"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -27.3781)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" groups=["food"]]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+shape = SubResource("SphereShape3D_d5su1")

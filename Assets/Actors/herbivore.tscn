@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk0smly06u0id"]
+[gd_scene load_steps=6 format=3 uid="uid://dk0smly06u0id"]
 
 [ext_resource type="Script" path="res://Scripts/Models/Herbivore.cs" id="1_gngu6"]
-[ext_resource type="PackedScene" uid="uid://ctp7mpcx5sml2" path="res://Scripts/AI/herbivore_ai.tscn" id="2_s071q"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s42s1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_v5d1k"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_khtmk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_y0fix"]
 
 [node name="Herbivore" type="CharacterBody3D"]
 script = ExtResource("1_gngu6")
@@ -20,8 +23,18 @@ skeleton = NodePath("../Collision")
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 2)
 
-[node name="DirectVisionRayCast" type="RayCast3D" parent="."]
-collide_with_areas = true
+[node name="WaterDetectionArea" type="Area3D" parent="."]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
 
-[node name="HerbivoreAI" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_s071q")]
-blackboard = NodePath("@Node@23677")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterDetectionArea"]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+shape = SubResource("SphereShape3D_khtmk")
+
+[node name="FoodDetectionArea" type="Area3D" parent="."]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FoodDetectionArea"]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+shape = SubResource("SphereShape3D_y0fix")
