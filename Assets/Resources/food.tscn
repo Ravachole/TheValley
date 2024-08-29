@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlbjic1fq5h7u"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_d5su1"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_3ins6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6kf3"]
+albedo_color = Color(0.4, 1, 0.305882, 1)
+
+[node name="food" type="StaticBody3D" groups=["food"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -27.3781)
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["food"]]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+shape = SubResource("SphereShape3D_d5su1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["food"]]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+layers = 2
+mesh = SubResource("PrismMesh_3ins6")
+surface_material_override/0 = SubResource("StandardMaterial3D_m6kf3")

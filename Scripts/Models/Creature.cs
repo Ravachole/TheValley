@@ -3,17 +3,20 @@ using Godot;
 using static Metabolism;
 using System.Linq;
 
-
+public enum CreatureState
+{
+    Idle,
+    Eating,
+    Drinking,
+    Sleeping,
+    Wandering
+}
 public abstract partial class Creature : CharacterBody3D
 {
+    public CreatureState CurrentState { get; set; } = CreatureState.Idle;
 	// Metabolism stats (update everything to protected => private make little sense in an abstract class)
-	private Health health;
-	private Stamina stamina;
-	private Growth growth;
-    private Thirst thirst;
-    private Hunger hunger;
-    private Energy energy;
-    private Stress stress;
+    public Thirst thirst;
+    public Hunger hunger;
 	// End Metabolism stats
 
 	// TODO : REFACTOR AREA DETECTION IN SENSES
@@ -23,19 +26,29 @@ public abstract partial class Creature : CharacterBody3D
 	[Export] public float Speed = 10f;
 	[Export] public float DetectionRadius = 15f;
 	// End public custom values
-   	protected Vector3 _velocity = Vector3.Zero;
     protected Area3D _waterDetectionArea;
     protected Area3D _foodDetectionArea;
 	// Abstracts mandatory methods
 	public abstract override void _PhysicsProcess(double delta);
 	public abstract override void _Ready();
 	// End Abstracts mandatory methods
+
+    // Delta needed in behavior context for timed actions
+    public float Delta {get; set;}
+    
+
+    // Constructor
+    public Creature() {
+        thirst = new Thirst();
+        hunger = new Hunger();
+    }
+    // TODO : CHECK IF THESE METHODS ARE STILL NEEDED. I dont think so because herbehavtree check from godot, this is never used.
 	protected void OnWaterEntered(Node3D body)
     {
         if (body.IsInGroup("water"))
         {
             // Moving to water logic
-            _velocity = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized() * Speed;
+            Velocity = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized() * Speed;
         }
     }
 
@@ -44,7 +57,11 @@ public abstract partial class Creature : CharacterBody3D
         if (body.IsInGroup("food"))
         {
             // Moving to food logic
-            _velocity = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized() * Speed;
+            Velocity = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized() * Speed;
         }
+    }
+    public void SetState(CreatureState state)
+    {
+        CurrentState = state;
     }
 }

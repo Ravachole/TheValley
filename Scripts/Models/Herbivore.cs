@@ -15,10 +15,18 @@ public partial class Herbivore : Creature {
 
     public override void _PhysicsProcess(double delta)
     {
+        thirst.Update(delta);
+        hunger.Update(delta);
+        // delta updated
+        Delta = (float)delta;
         //Update behavior tree
         _behaviorTree.Update(this);
-        // Apply the behavior tree velocity
-        Velocity = _velocity;
+        // Apply the behavior tree velocity with state check
+        if (CurrentState != CreatureState.Idle || CurrentState != CreatureState.Wandering)
+        {
+            Velocity = Vector3.Zero;
+        }
+        GD.Print($"Applying Velocity: {Velocity}");
         MoveAndSlide();
     }
 }
