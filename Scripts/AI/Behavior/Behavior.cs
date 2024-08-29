@@ -52,16 +52,18 @@ public class Sequence : BehaviorNode
 
 public class ConditionNode : BehaviorNode
 {
-    private Func<Herbivore, bool> _condition;
+    private readonly Func<Herbivore, bool> _condition;
+    private readonly bool _expectedResult;
 
-    public ConditionNode(Func<Herbivore, bool> condition)
+    public ConditionNode(Func<Herbivore, bool> condition, bool expectedResult = true)
     {
         _condition = condition;
+        _expectedResult = expectedResult;
     }
 
     public override bool Execute(Herbivore herbivore)
     {
-        return _condition(herbivore);
+        return _condition(herbivore) == _expectedResult;
     }
 }
 

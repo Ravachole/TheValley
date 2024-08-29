@@ -17,15 +17,17 @@ public partial class Herbivore : Creature {
     {
         thirst.Update(delta);
         hunger.Update(delta);
+        stamina.Update(delta);
         // delta updated
         Delta = (float)delta;
         //Update behavior tree
         _behaviorTree.Update(this);
         // Apply the behavior tree velocity with state check
-        if (CurrentState != CreatureState.Idle || CurrentState != CreatureState.Wandering)
+        if (CurrentState != CreatureState.Wandering)
         {
             Velocity = Vector3.Zero;
         }
+        GD.Print("Herbivore state : " + CurrentState);
         GD.Print($"Applying Velocity: {Velocity}");
         MoveAndSlide();
     }

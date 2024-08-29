@@ -96,7 +96,7 @@ public class HerbivoreBehaviorTree
         var food = herbivore.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("food"));
         if (food != null)
         {
-            float distance = herbivore.GlobalTransform.Origin.DistanceTo(food.GlobalTransform.Origin);
+            float distance = herbivore.GlobalTransform.origin.DistanceTo(food.GlobalTransform.origin);
             return distance < 2.0f; // Example distance threshold; adjust as needed
         }
         return false;
@@ -150,7 +150,7 @@ public class HerbivoreBehaviorTree
         var water = herbivore.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("water"));
         if (water != null)
         {
-            float distance = herbivore.GlobalTransform.Origin.DistanceTo(water.GlobalTransform.Origin);
+            float distance = herbivore.GlobalTransform.origin.DistanceTo(water.GlobalTransform.origin);
             return distance < 2.0f; // Example distance threshold; adjust as needed
         }
         return false;

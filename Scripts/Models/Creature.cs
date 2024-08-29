@@ -13,10 +13,12 @@ public enum CreatureState
 }
 public abstract partial class Creature : CharacterBody3D
 {
-    public CreatureState CurrentState { get; set; } = CreatureState.Idle;
+    public CreatureState CurrentState { get; set; } = CreatureState.Wandering;
 	// Metabolism stats (update everything to protected => private make little sense in an abstract class)
+    // TODO : Syntax, majuscules pour public
     public Thirst thirst;
     public Hunger hunger;
+    public Stamina stamina;
 	// End Metabolism stats
 
 	// TODO : REFACTOR AREA DETECTION IN SENSES
@@ -41,6 +43,7 @@ public abstract partial class Creature : CharacterBody3D
     public Creature() {
         thirst = new Thirst();
         hunger = new Hunger();
+        stamina = new Stamina();
     }
     // TODO : CHECK IF THESE METHODS ARE STILL NEEDED. I dont think so because herbehavtree check from godot, this is never used.
 	protected void OnWaterEntered(Node3D body)

@@ -3,14 +3,22 @@ using Godot;
 using Godot.NativeInterop;
 public abstract class Metabolism
 {
+    // TODO : Move default values to global stuff. Specific stats come with specific obj.
     private float _minimum = 0.0f;
     private float _maximum = 100.0f;
     private float _current = 100.0f;
-    private float _drain = 5f;
+    private float _drain = 5.0f;
+    private float _currentDrain = 5.0f;
     private float _regeneration = 0.0f;
-    private float _threshold = 50.0f;
+    private float _threshold = 20.0f;
 
     // Properties to get and set these values
+
+    public float CurrentDrain
+    {
+        get => _currentDrain;
+        set => _currentDrain = value;
+    }
     public float Minimum
     {
         get => _minimum;
@@ -53,7 +61,7 @@ public abstract class Metabolism
     // Common logic for draining the resource over time
     protected void DrainOverTime(double delta)
     {
-        Current -= _drain * (float)delta;
+        Current -= _currentDrain * (float)delta;
         Current = Mathf.Clamp(Current, _minimum, _maximum); // Ensure it stays within bounds
     }
 
@@ -73,11 +81,16 @@ public abstract class Metabolism
     // TEST METHOD TO MAKE DYNAMIC
     public bool IsFull()
     {
-        return _current >= 80.0f;
+        return _current >= 50.0f;
     }
 }
 
 public class Hunger : Metabolism {
+
+    public Hunger() {
+        Drain = 0.5f;
+        CurrentDrain = Drain;
+    }
     public override void Update(double delta)
     {
         // Apply hunger-specific update logic here
@@ -86,6 +99,11 @@ public class Hunger : Metabolism {
     }
 }
 public class Thirst : Metabolism {
+
+    public Thirst() {
+        Drain = 1.5f;
+        CurrentDrain = Drain;
+    }
     public override void Update(double delta)
     {
         // Apply thirst-specific update logic here
@@ -95,6 +113,18 @@ public class Thirst : Metabolism {
 }
 // class Stress : Metabolism {}
 // class Health : Metabolism {}
-// class Stamina : Metabolism {}
+public class Stamina : Metabolism {
+    public Stamina() {
+        Drain = 0.3f;
+        CurrentDrain = Drain;
+    }
+    
+       public override void Update(double delta)
+    {
+        // Apply thirst-specific update logic here
+        DrainOverTime(delta);
+        GD.Print("Stamina updated : " + Current);
+    }
+}
 // class Growth : Metabolism {}
 
