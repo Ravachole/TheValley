@@ -1,89 +1,87 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using TheValley.Scripts.Models;
 
-// Define the IBehaviorNode interface
-public interface IBehaviorNode
+namespace TheValley.Scripts.AI.Behavior
 {
-    bool Execute(Creature creature);
-}
-
-// Selector class implementing IBehaviorNode
-public class Selector : IBehaviorNode
-{
-    private List<IBehaviorNode> _children;
-
-    public Selector(List<IBehaviorNode> children)
+    
+    public interface IBehaviorNode
     {
-        _children = children;
+        bool Execute(Creature creature);
     }
 
-    public bool Execute(Creature creature)
+    // Selector class implementing IBehaviorNode
+    public class Selector : IBehaviorNode
     {
-        foreach (var child in _children)
+        private readonly List<IBehaviorNode> _children;
+
+        public Selector(List<IBehaviorNode> children)
         {
-            if (child.Execute(creature))
-            {
-                return true;
-            }
+            _children = children;
         }
-        return false;
-    }
-}
 
-// Sequence class implementing IBehaviorNode
-public class Sequence : IBehaviorNode
-{
-    private List<IBehaviorNode> _children;
-
-    public Sequence(List<IBehaviorNode> children)
-    {
-        _children = children;
-    }
-
-    public bool Execute(Creature creature)
-    {
-        foreach (var child in _children)
+        public bool Execute(Creature creature)
         {
-            if (!child.Execute(creature))
-            {
-                return false;
-            }
+           return _children.Exists(child => child.Execute(creature));
         }
-        return true;
-    }
-}
-
-// ConditionNode class implementing IBehaviorNode
-public class ConditionNode : IBehaviorNode
-{
-    private readonly Func<Creature, bool> _condition;
-    private readonly bool _expectedResult;
-
-    public ConditionNode(Func<Creature, bool> condition, bool expectedResult = true)
-    {
-        _condition = condition;
-        _expectedResult = expectedResult;
     }
 
-    public bool Execute(Creature creature)
+    // Sequence class implementing IBehaviorNode
+    public class Sequence : IBehaviorNode
     {
-        return _condition(creature) == _expectedResult;
+        private readonly List<IBehaviorNode> _children;
+
+        public Sequence(List<IBehaviorNode> children)
+        {
+            _children = children;
+        }
+
+        public bool Execute(Creature creature)
+        {
+            foreach (var child in _children)
+            {
+                if (!child.Execute(creature))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-}
 
-// ActionNode class implementing IBehaviorNode
-public class ActionNode : IBehaviorNode
-{
-    private Action<Creature> _action;
-
-    public ActionNode(Action<Creature> action)
+    // ConditionNode class implementing IBehaviorNode
+    public class ConditionNode : IBehaviorNode
     {
-        _action = action;
+        private readonly Func<Creature, bool> _condition;
+        private readonly bool _expectedResult;
+
+        public ConditionNode(Func<Creature, bool> condition, bool expectedResult = true)
+        {
+            _condition = condition;
+            _expectedResult = expectedResult;
+        }
+
+        public bool Execute(Creature creature)
+        {
+            return _condition(creature) == _expectedResult;
+        }
     }
 
-    public bool Execute(Creature creature)
+    // ActionNode class implementing IBehaviorNode
+    public class ActionNode : IBehaviorNode
     {
-        _action(creature);
-        return true; // Assume action is always successful
+        private readonly Action<Creature> _action;
+
+        public ActionNode(Action<Creature> action)
+        {
+            _action = action;
+        }
+
+        public bool Execute(Creature creature)
+        {
+            _action(creature);
+            return true; // Assume action is always successful
+        }
     }
 }
