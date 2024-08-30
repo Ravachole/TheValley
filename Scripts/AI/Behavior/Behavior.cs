@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
 
-public abstract class BehaviorNode<TCreature> where TCreature : Creature
+// Define the IBehaviorNode interface
+public interface IBehaviorNode
 {
-    public abstract bool Execute(TCreature creature);
+    bool Execute(Creature creature);
 }
 
-public class Selector<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
+// Selector class implementing IBehaviorNode
+public class Selector : IBehaviorNode
 {
-    private List<BehaviorNode<TCreature>> _children;
+    private List<IBehaviorNode> _children;
 
-    public Selector(List<BehaviorNode<TCreature>> children)
+    public Selector(List<IBehaviorNode> children)
     {
         _children = children;
     }
 
-    public override bool Execute(TCreature creature)
+    public bool Execute(Creature creature)
     {
         foreach (var child in _children)
         {
@@ -28,16 +30,17 @@ public class Selector<TCreature> : BehaviorNode<TCreature> where TCreature : Cre
     }
 }
 
-public class Sequence<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
+// Sequence class implementing IBehaviorNode
+public class Sequence : IBehaviorNode
 {
-    private List<BehaviorNode<TCreature>> _children;
+    private List<IBehaviorNode> _children;
 
-    public Sequence(List<BehaviorNode<TCreature>> children)
+    public Sequence(List<IBehaviorNode> children)
     {
         _children = children;
     }
 
-    public override bool Execute(TCreature creature)
+    public bool Execute(Creature creature)
     {
         foreach (var child in _children)
         {
@@ -50,33 +53,35 @@ public class Sequence<TCreature> : BehaviorNode<TCreature> where TCreature : Cre
     }
 }
 
-public class ConditionNode<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
+// ConditionNode class implementing IBehaviorNode
+public class ConditionNode : IBehaviorNode
 {
-    private readonly Func<TCreature, bool> _condition;
+    private readonly Func<Creature, bool> _condition;
     private readonly bool _expectedResult;
 
-    public ConditionNode(Func<TCreature, bool> condition, bool expectedResult = true)
+    public ConditionNode(Func<Creature, bool> condition, bool expectedResult = true)
     {
         _condition = condition;
         _expectedResult = expectedResult;
     }
 
-    public override bool Execute(TCreature creature)
+    public bool Execute(Creature creature)
     {
         return _condition(creature) == _expectedResult;
     }
 }
 
-public class ActionNode<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
+// ActionNode class implementing IBehaviorNode
+public class ActionNode : IBehaviorNode
 {
-    private Action<TCreature> _action;
+    private Action<Creature> _action;
 
-    public ActionNode(Action<TCreature> action)
+    public ActionNode(Action<Creature> action)
     {
         _action = action;
     }
 
-    public override bool Execute(TCreature creature)
+    public bool Execute(Creature creature)
     {
         _action(creature);
         return true; // Assume action is always successful

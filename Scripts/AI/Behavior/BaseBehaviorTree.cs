@@ -3,39 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public abstract class BaseBehaviorTree<TCreature> where TCreature : Creature
+public abstract class BaseBehaviorTree
 {
-    protected BehaviorNode<TCreature> _root;
+    protected IBehaviorNode _root;
     private Random _random = new Random();
     private float _wanderTimer = 0.0f;
     private const float _wanderInterval = 2.0f;
 
     public BaseBehaviorTree()
+    {
+        _root = new Selector(new List<IBehaviorNode>
         {
-            _root = new Selector<TCreature>(new List<BehaviorNode<TCreature>>
-            {
-                CreateHungerSequence(),
-                CreateThirstSequence(),
-                CreateTiredSequence(),
-                CreateIdleSequence(),
-                CreateWanderSequence()
-            });
-        }
+            CreateHungerSequence(),
+            CreateThirstSequence(),
+            CreateTiredSequence(),
+            CreateIdleSequence(),
+            CreateWanderSequence()
+        });
+    }
 
-    protected abstract BehaviorNode<TCreature> CreateHungerSequence();
-    protected abstract BehaviorNode<TCreature> CreateThirstSequence();
-    protected abstract BehaviorNode<TCreature> CreateTiredSequence();
-    protected abstract BehaviorNode<TCreature> CreateIdleSequence();
-    protected abstract BehaviorNode<TCreature> CreateWanderSequence();
+    protected abstract IBehaviorNode CreateHungerSequence();
+    protected abstract IBehaviorNode CreateThirstSequence();
+    protected abstract IBehaviorNode CreateTiredSequence();
+    protected abstract IBehaviorNode CreateIdleSequence();
+    protected abstract IBehaviorNode CreateWanderSequence();
 
-    // Update method now takes a TCreature parameter
-    public void Update(TCreature creature)
+    // Update method now takes a Creature parameter
+    public void Update(Creature creature)
     {
         bool result = _root.Execute(creature); // Passes the specific type of creature
         GD.Print($"Behavior Tree Update Result: {result}");
     }
 
-    protected void Wander(TCreature creature)
+    protected void Wander(Creature creature)
     {
         if (creature.CurrentState != CreatureState.Wandering)
         {
@@ -64,7 +64,7 @@ public abstract class BaseBehaviorTree<TCreature> where TCreature : Creature
     }
 
     // Common method for checking proximity
-    protected bool IsNearTarget(TCreature creature, string targetAreaName)
+    protected bool IsNearTarget(Creature creature, string targetAreaName)
     {
         var targetArea = creature.GetNode<Area3D>(targetAreaName);
         var target = targetArea.GetOverlappingBodies().FirstOrDefault();
@@ -72,7 +72,7 @@ public abstract class BaseBehaviorTree<TCreature> where TCreature : Creature
         if (target != null)
         {
             float distance = creature.GlobalTransform.Origin.DistanceTo(target.GlobalTransform.Origin);
-            // TODO : Make Distance custom. For now it's default value.
+            // TODO: Make Distance custom. For now it's default value.
             return distance < 2.0f; 
         }
         return false;

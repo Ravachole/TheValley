@@ -3,195 +3,195 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public class HerbivoreBehaviorTree : BaseBehaviorTree<Herbivore>
+public class HerbivoreBehaviorTree : BaseBehaviorTree
 {
     public HerbivoreBehaviorTree() : base()
     {
     }
 
     // Implement the abstract methods from BaseBehaviorTree to create behavior sequences
-    protected override BehaviorNode<Herbivore> CreateHungerSequence()
+    protected override IBehaviorNode CreateHungerSequence()
     {
-        return new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+        return new Sequence(new List<IBehaviorNode>
         {
-            new ConditionNode<Herbivore>(IsHungry),
-            new ConditionNode<Herbivore>(IsFoodNearby),
-            new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+            new ConditionNode(creature => IsHungry(creature)),
+            new ConditionNode(creature => IsFoodNearby(creature)),
+            new Sequence(new List<IBehaviorNode>
             {
-                new ActionNode<Herbivore>(MoveToFood),
-                new ConditionNode<Herbivore>(herbivore => IsNearTarget(herbivore, "FoodDetectionArea")),
-                new ActionNode<Herbivore>(EatFood)
+                new ActionNode(creature => MoveToFood(creature)),
+                new ConditionNode(creature => IsNearTarget(creature, "FoodDetectionArea")),
+                new ActionNode(creature => EatFood(creature))
             })
         });
     }
 
-    protected override BehaviorNode<Herbivore> CreateThirstSequence()
+    protected override IBehaviorNode CreateThirstSequence()
     {
-        return new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+        return new Sequence(new List<IBehaviorNode>
         {
-            new ConditionNode<Herbivore>(IsThirsty),
-            new ConditionNode<Herbivore>(IsWaterNearby),
-            new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+            new ConditionNode(creature => IsThirsty(creature)),
+            new ConditionNode(creature => IsWaterNearby(creature)),
+            new Sequence(new List<IBehaviorNode>
             {
-                new ActionNode<Herbivore>(MoveToWater),
-                new ConditionNode<Herbivore>(herbivore => IsNearTarget(herbivore, "WaterDetectionArea")),
-                new ActionNode<Herbivore>(DrinkWater)
+                new ActionNode(creature => MoveToWater(creature)),
+                new ConditionNode(creature => IsNearTarget(creature, "WaterDetectionArea")),
+                new ActionNode(creature => DrinkWater(creature))
             })
         });
     }
 
-    protected override BehaviorNode<Herbivore> CreateTiredSequence()
+    protected override IBehaviorNode CreateTiredSequence()
     {
-        return new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+        return new Sequence(new List<IBehaviorNode>
         {
-            new ConditionNode<Herbivore>(IsTired),
-            new ActionNode<Herbivore>(IsSleeping)
+            new ConditionNode(creature => IsTired(creature)),
+            new ActionNode(creature => IsSleeping(creature))
         });
     }
 
-    protected override BehaviorNode<Herbivore> CreateIdleSequence()
+    protected override IBehaviorNode CreateIdleSequence()
     {
-        return new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+        return new Sequence(new List<IBehaviorNode>
         {
-            new ConditionNode<Herbivore>(IsIdle, true),
-            new ActionNode<Herbivore>(Idle)
+            new ConditionNode(creature => IsIdle(creature), true),
+            new ActionNode(creature => Idle(creature))
         });
     }
 
-    protected override BehaviorNode<Herbivore> CreateWanderSequence()
+    protected override IBehaviorNode CreateWanderSequence()
     {
-        return new Sequence<Herbivore>(new List<BehaviorNode<Herbivore>>
+        return new Sequence(new List<IBehaviorNode>
         {
-            new ConditionNode<Herbivore>(IsWandering, true),
-            new ActionNode<Herbivore>(Wander) // This can use the default from BaseBehaviorTree
+            new ConditionNode(creature => IsWandering(creature), true),
+            new ActionNode(creature => Wander(creature)) // This uses the default Wander method from BaseBehaviorTree
         });
     }
 
     // Methods defining the specific behaviors
-    private bool IsIdle(Herbivore herbivore)
+    private bool IsIdle(Creature creature)
     {
-        return herbivore.CurrentState == CreatureState.Idle;
+        return creature.CurrentState == CreatureState.Idle;
     }
 
-    private bool IsWandering(Herbivore herbivore)
+    private bool IsWandering(Creature creature)
     {
-        return herbivore.CurrentState == CreatureState.Wandering;
+        return creature.CurrentState == CreatureState.Wandering;
     }
 
-    private void Idle(Herbivore herbivore)
+    private void Idle(Creature creature)
     {
-        GD.Print($"{nameof(herbivore)} is idling");
+        GD.Print($"{creature.Name} is idling");
     }
 
-    private bool IsHungry(Herbivore herbivore)
+    private bool IsHungry(Creature creature)
     {
-        bool isHungry = herbivore.hunger.IsBelowThreshold();
-        GD.Print($"{nameof(herbivore)} is Hungry: {isHungry} (Current: {herbivore.hunger.Current}, Threshold: {herbivore.hunger.Threshold})");
+        bool isHungry = creature.hunger.IsBelowThreshold();
+        GD.Print($"{creature.Name} is Hungry: {isHungry} (Current: {creature.hunger.Current}, Threshold: {creature.hunger.Threshold})");
         return isHungry;
     }
 
-    private bool IsFoodNearby(Herbivore herbivore)
+    private bool IsFoodNearby(Creature creature)
     {
-        GD.Print($"{nameof(herbivore)} Start looking for food");
-        return herbivore.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("food"));
+        GD.Print($"{creature.Name} Start looking for food");
+        return creature.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("food"));
     }
 
-    private void MoveToFood(Herbivore herbivore)
+    private void MoveToFood(Creature creature)
     {
-        var food = herbivore.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("food"));
+        var food = creature.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("food"));
         if (food != null)
         {
-            herbivore.SetState(CreatureState.Wandering);
-            herbivore.Velocity = (food.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
-            GD.Print($"{nameof(herbivore)} Start moving to food at {herbivore.Velocity}");
+            creature.SetState(CreatureState.Wandering);
+            creature.Velocity = (food.GlobalTransform.Origin - creature.GlobalTransform.Origin).Normalized() * creature.Speed;
+            GD.Print($"{creature.Name} Start moving to food at {creature.Velocity}");
         }
     }
 
-    private void EatFood(Herbivore herbivore)
+    private void EatFood(Creature creature)
     {
-        GD.Print($"{nameof(herbivore)} Start eating");
-        herbivore.SetState(CreatureState.Eating);
-        herbivore.hunger.CurrentDrain = 0.0f;
-        while (!HasEatenEnough(herbivore))
+        GD.Print($"{creature.Name} Start eating");
+        creature.SetState(CreatureState.Eating);
+        creature.hunger.CurrentDrain = 0.0f;
+        while (!HasEatenEnough(creature))
         {
-            herbivore.hunger.Current += 10.0f;
+            creature.hunger.Current += 10.0f;
         }
-        herbivore.SetState(CreatureState.Wandering);
-        GD.Print($"{nameof(herbivore)} has eaten enough and will resume normal behavior.");
-        herbivore.hunger.CurrentDrain = herbivore.hunger.Drain;
+        creature.SetState(CreatureState.Wandering);
+        GD.Print($"{creature.Name} has eaten enough and will resume normal behavior.");
+        creature.hunger.CurrentDrain = creature.hunger.Drain;
     }
 
-    private bool HasEatenEnough(Herbivore herbivore)
+    private bool HasEatenEnough(Creature creature)
     {
-        return herbivore.hunger.IsFull();
+        return creature.hunger.IsFull();
     }
 
-    private bool IsThirsty(Herbivore herbivore)
+    private bool IsThirsty(Creature creature)
     {
-        bool isThirsty = herbivore.thirst.IsBelowThreshold();
-        GD.Print($"{nameof(herbivore)} is Thirsty: {isThirsty} (Current: {herbivore.thirst.Current}, Threshold: {herbivore.thirst.Threshold})");
+        bool isThirsty = creature.thirst.IsBelowThreshold();
+        GD.Print($"{creature.Name} is Thirsty: {isThirsty} (Current: {creature.thirst.Current}, Threshold: {creature.thirst.Threshold})");
         return isThirsty;
     }
 
-    private bool IsWaterNearby(Herbivore herbivore)
+    private bool IsWaterNearby(Creature creature)
     {
-        GD.Print($"{nameof(herbivore)} Start looking for water");
-        return herbivore.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("water"));
+        GD.Print($"{creature.Name} Start looking for water");
+        return creature.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("water"));
     }
 
-    private void MoveToWater(Herbivore herbivore)
+    private void MoveToWater(Creature creature)
     {
-        var water = herbivore.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("water"));
+        var water = creature.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("water"));
         if (water != null)
         {
-            herbivore.SetState(CreatureState.Wandering);
-            herbivore.Velocity = (water.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
-            GD.Print($"{nameof(herbivore)} Start moving to water at {herbivore.Velocity}");
+            creature.SetState(CreatureState.Wandering);
+            creature.Velocity = (water.GlobalTransform.Origin - creature.GlobalTransform.Origin).Normalized() * creature.Speed;
+            GD.Print($"{creature.Name} Start moving to water at {creature.Velocity}");
         }
     }
 
-    private void DrinkWater(Herbivore herbivore)
+    private void DrinkWater(Creature creature)
     {
-        GD.Print($"{nameof(herbivore)} Start drinking");
-        herbivore.SetState(CreatureState.Drinking);
-        herbivore.thirst.CurrentDrain = 0.0f;
-        while (!HasDrunkEnough(herbivore))
+        GD.Print($"{creature.Name} Start drinking");
+        creature.SetState(CreatureState.Drinking);
+        creature.thirst.CurrentDrain = 0.0f;
+        while (!HasDrunkEnough(creature))
         {
-            herbivore.thirst.Current += 5.0f;
+            creature.thirst.Current += 5.0f;
         }
-        herbivore.SetState(CreatureState.Wandering);
-        GD.Print($"{nameof(herbivore)} has drunk enough and will resume normal behavior.");
-        herbivore.thirst.CurrentDrain = herbivore.thirst.Drain;
+        creature.SetState(CreatureState.Wandering);
+        GD.Print($"{creature.Name} has drunk enough and will resume normal behavior.");
+        creature.thirst.CurrentDrain = creature.thirst.Drain;
     }
 
-    private bool HasDrunkEnough(Herbivore herbivore)
+    private bool HasDrunkEnough(Creature creature)
     {
-        return herbivore.thirst.IsFull();
+        return creature.thirst.IsFull();
     }
 
-    private bool IsTired(Herbivore herbivore)
+    private bool IsTired(Creature creature)
     {
-        bool isTired = herbivore.stamina.IsBelowThreshold();
-        GD.Print($"{nameof(herbivore)} is Tired: {isTired} (Current: {herbivore.stamina.Current}, Threshold: {herbivore.stamina.Threshold})");
+        bool isTired = creature.stamina.IsBelowThreshold();
+        GD.Print($"{creature.Name} is Tired: {isTired} (Current: {creature.stamina.Current}, Threshold: {creature.stamina.Threshold})");
         return isTired;
     }
 
-    private void IsSleeping(Herbivore herbivore)
+    private void IsSleeping(Creature creature)
     {
-        GD.Print($"{nameof(herbivore)} Start sleeping");
-        herbivore.SetState(CreatureState.Sleeping);
-        herbivore.stamina.CurrentDrain = 0.0f;
-        while (!HasSleptEnough(herbivore))
+        GD.Print($"{creature.Name} Start sleeping");
+        creature.SetState(CreatureState.Sleeping);
+        creature.stamina.CurrentDrain = 0.0f;
+        while (!HasSleptEnough(creature))
         {
-            herbivore.stamina.Current += 15.0f;
+            creature.stamina.Current += 15.0f;
         }
-        herbivore.SetState(CreatureState.Wandering);
-        GD.Print($"{nameof(herbivore)} has Slept enough and will resume normal behavior.");
-        herbivore.stamina.CurrentDrain = herbivore.stamina.Drain;
+        creature.SetState(CreatureState.Wandering);
+        GD.Print($"{creature.Name} has Slept enough and will resume normal behavior.");
+        creature.stamina.CurrentDrain = creature.stamina.Drain;
     }
 
-    private bool HasSleptEnough(Herbivore herbivore)
+    private bool HasSleptEnough(Creature creature)
     {
-        return herbivore.stamina.IsFull();
+        return creature.stamina.IsFull();
     }
 }
