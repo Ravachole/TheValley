@@ -5,7 +5,6 @@ using Godot;
 
 public class HerbivoreBehaviorTree : BaseBehaviorTree<Herbivore>
 {
-    private Random _random = new Random();
     public HerbivoreBehaviorTree() : base()
     {
     }
