@@ -1,84 +1,87 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using TheValley.Scripts.Models;
 
-public abstract class BehaviorNode<TCreature> where TCreature : Creature
+namespace TheValley.Scripts.AI.Behavior
 {
-    public abstract bool Execute(TCreature creature);
-}
-
-public class Selector<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
-{
-    private List<BehaviorNode<TCreature>> _children;
-
-    public Selector(List<BehaviorNode<TCreature>> children)
+    
+    public interface IBehaviorNode
     {
-        _children = children;
+        bool Execute(Creature creature);
     }
 
-    public override bool Execute(TCreature creature)
+    // Selector class implementing IBehaviorNode
+    public class Selector : IBehaviorNode
     {
-        foreach (var child in _children)
+        private readonly List<IBehaviorNode> _children;
+
+        public Selector(List<IBehaviorNode> children)
         {
-            if (child.Execute(creature))
-            {
-                return true;
-            }
+            _children = children;
         }
-        return false;
-    }
-}
 
-public class Sequence<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
-{
-    private List<BehaviorNode<TCreature>> _children;
-
-    public Sequence(List<BehaviorNode<TCreature>> children)
-    {
-        _children = children;
-    }
-
-    public override bool Execute(TCreature creature)
-    {
-        foreach (var child in _children)
+        public bool Execute(Creature creature)
         {
-            if (!child.Execute(creature))
-            {
-                return false;
-            }
+           return _children.Exists(child => child.Execute(creature));
         }
-        return true;
-    }
-}
-
-public class ConditionNode<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
-{
-    private readonly Func<TCreature, bool> _condition;
-    private readonly bool _expectedResult;
-
-    public ConditionNode(Func<TCreature, bool> condition, bool expectedResult = true)
-    {
-        _condition = condition;
-        _expectedResult = expectedResult;
     }
 
-    public override bool Execute(TCreature creature)
+    // Sequence class implementing IBehaviorNode
+    public class Sequence : IBehaviorNode
     {
-        return _condition(creature) == _expectedResult;
+        private readonly List<IBehaviorNode> _children;
+
+        public Sequence(List<IBehaviorNode> children)
+        {
+            _children = children;
+        }
+
+        public bool Execute(Creature creature)
+        {
+            foreach (var child in _children)
+            {
+                if (!child.Execute(creature))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-}
 
-public class ActionNode<TCreature> : BehaviorNode<TCreature> where TCreature : Creature
-{
-    private Action<TCreature> _action;
-
-    public ActionNode(Action<TCreature> action)
+    // ConditionNode class implementing IBehaviorNode
+    public class ConditionNode : IBehaviorNode
     {
-        _action = action;
+        private readonly Func<Creature, bool> _condition;
+        private readonly bool _expectedResult;
+
+        public ConditionNode(Func<Creature, bool> condition, bool expectedResult = true)
+        {
+            _condition = condition;
+            _expectedResult = expectedResult;
+        }
+
+        public bool Execute(Creature creature)
+        {
+            return _condition(creature) == _expectedResult;
+        }
     }
 
-    public override bool Execute(TCreature creature)
+    // ActionNode class implementing IBehaviorNode
+    public class ActionNode : IBehaviorNode
     {
-        _action(creature);
-        return true; // Assume action is always successful
+        private readonly Action<Creature> _action;
+
+        public ActionNode(Action<Creature> action)
+        {
+            _action = action;
+        }
+
+        public bool Execute(Creature creature)
+        {
+            _action(creature);
+            return true; // Assume action is always successful
+        }
     }
 }
