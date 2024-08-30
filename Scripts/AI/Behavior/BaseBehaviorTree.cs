@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-// Make the base behavior tree generic
 public abstract class BaseBehaviorTree<TCreature> where TCreature : Creature
 {
     protected BehaviorNode<TCreature> _root;

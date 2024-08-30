@@ -6,9 +6,6 @@ using Godot;
 public class HerbivoreBehaviorTree : BaseBehaviorTree<Herbivore>
 {
     private Random _random = new Random();
-    private float _wanderTimer = 0.0f;
-    private const float _wanderInterval = 2.0f;
-
     public HerbivoreBehaviorTree() : base()
     {
     }
