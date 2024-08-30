@@ -1,0 +1,131 @@
+{
+  "source_base_path": "C:/Users/simeo/Documents/Projects/Godot-4/thevalley",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Actors/Bizut.tscn",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Actors/Bizut.tscn"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Actors/herbivore.tscn",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Actors/herbivore.tscn"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1.glb",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1.glb"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1.glb.import",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1.glb.import"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1_grass_tile_1.png",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1_grass_tile_1.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1_grass_tile_1.png.import",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1_grass_tile_1.png.import"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1_stone_tile_1.png",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1_stone_tile_1.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1_stone_tile_1.png.import",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1_stone_tile_1.png.import"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1_water_tile_1.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1_water_tile_1.jpg"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Maps/Lvl1_water_tile_1.jpg.import",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Maps/Lvl1_water_tile_1.jpg.import"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Resources/food.tscn",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Resources/food.tscn"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "Assets/Resources/water.tscn",
+      "output": {
+        "resource": {
+          "relative_path": "Assets/Resources/water.tscn"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

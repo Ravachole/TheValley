@@ -1,0 +1,65 @@
+{
+    "metadata": [
+      {
+        "src": [
+          {
+            "files": [
+              "**/*.cs"
+            ],
+            "exclude": [
+              "test.txt"
+            ],
+            "cwd": "Scripts"
+          }
+        ],
+        "dest": "api"
+      }
+    ],
+    "build": {
+      "content": [
+        {
+          "files": [
+            "index.md",
+            "toc.md"
+          ]
+        },
+        {
+          "files": [
+            "test.txt"
+          ],
+          "exclude": [
+            "Scripts/**/*.cs"
+          ]
+        }
+      ],
+      "resource": [
+        {
+          "files": [
+            "Assets/**/*"
+          ]
+        }
+      ],
+      "overwrite": [
+        {
+          "files": [
+            "overwrite/*.md"
+          ]
+        }
+      ],
+      "dest": "docs",
+      "globalMetadata": {
+        "_appTitle": "Project Documentation"
+      },
+      "xref": [
+        {
+          "files": [
+            "xref/*.yml"
+          ]
+        }
+      ]
+    },
+    "serve": {
+      "port": 8080
+    }
+  }
+  
