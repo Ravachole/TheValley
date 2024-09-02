@@ -84,7 +84,6 @@ namespace TheValley.Scripts.Models
         {
             // Apply hunger-specific update logic here
             DrainOverTime(delta);
-            GD.Print("Hunger updated : " + Current);
         }
     }
     public class Thirst : Metabolism {
@@ -97,7 +96,6 @@ namespace TheValley.Scripts.Models
         {
             // Apply thirst-specific update logic here
             DrainOverTime(delta);
-            GD.Print("Thirst updated : " + Current);
         }
     }
     public class Stamina : Metabolism {
@@ -110,7 +108,6 @@ namespace TheValley.Scripts.Models
         {
             // Apply thirst-specific update logic here
             DrainOverTime(delta);
-            GD.Print("Stamina updated : " + Current);
         }
     }
 }

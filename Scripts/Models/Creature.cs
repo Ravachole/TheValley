@@ -80,6 +80,7 @@ namespace TheValley.Scripts.Models
         public void SetState(CreatureState state)
         {
             CurrentState = state;
+            GD.Print("Herbivore is in state : " + state);
         }
     }
 }
