@@ -36,7 +36,7 @@ namespace TheValley.Scripts.AI.Behavior
         }
         public void Update(Creature creature)
         {
-            bool result = _root.Execute(creature);
+            _root.Execute(creature);
         }
 
         protected void Wander(Creature creature)
@@ -73,7 +73,8 @@ namespace TheValley.Scripts.AI.Behavior
             if (target != null)
             {
                 float distance = creature.GlobalTransform.Origin.DistanceTo(target.GlobalTransform.Origin);
-                return distance < 2.0f; 
+                GD.Print("herbivore is at " + distance + "from resource");
+                return distance < 15.0f; 
             }
             return false;
         }

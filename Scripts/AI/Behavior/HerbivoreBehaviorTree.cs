@@ -104,7 +104,7 @@ namespace TheValley.Scripts.AI.Behavior
             var food = herbivore.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("food"));
             if (food != null)
             {
-                herbivore.SetState(CreatureState.Wandering);
+                // herbivore.SetState(CreatureState.Wandering);
                 herbivore.Velocity = (food.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
                 GD.Print($"{herbivore.Name} Start moving to food at {herbivore.Velocity}");
             }
@@ -134,14 +134,18 @@ namespace TheValley.Scripts.AI.Behavior
         {
             var herbivore = (Herbivore)creature;
             bool isThirsty = herbivore.Thirst.IsBelowThreshold();
-            // GD.Print($"{herbivore.Name} is Thirsty: {isThirsty} (Current: {herbivore.Thirst.Current}, Threshold: {herbivore.Thirst.Threshold})");
+            if (isThirsty)
+                GD.Print(nameof(herbivore) + "is thirsty");
             return isThirsty;
         }
 
         private bool IsWaterNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for water");
-            return creature.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("water"));
+            bool foundWater = creature.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("water"));
+            if (foundWater)
+                GD.Print(nameof(Herbivore) + " found");
+            return foundWater;
         }
 
         private void MoveToWater(Creature creature)
@@ -150,7 +154,6 @@ namespace TheValley.Scripts.AI.Behavior
             var water = herbivore.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("water"));
             if (water != null)
             {
-                herbivore.SetState(CreatureState.Wandering);
                 herbivore.Velocity = (water.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
                 GD.Print($"{herbivore.Name} Start moving to water at {herbivore.Velocity}");
             }
@@ -180,7 +183,8 @@ namespace TheValley.Scripts.AI.Behavior
         {
             var herbivore = (Herbivore)creature;
             bool isTired = herbivore.Stamina.IsBelowThreshold();
-            // GD.Print($"{herbivore.Name} is Tired: {isTired} (Current: {herbivore.Stamina.Current}, Threshold: {herbivore.Stamina.Threshold})");
+            if (isTired)
+                GD.Print(nameof(herbivore) + " is tired");
             return isTired;
         }
 
