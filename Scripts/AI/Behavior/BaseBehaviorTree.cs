@@ -37,7 +37,6 @@ namespace TheValley.Scripts.AI.Behavior
         public void Update(Creature creature)
         {
             bool result = _root.Execute(creature);
-            GD.Print($"Behavior Tree Update Result: {result}");
         }
 
         protected void Wander(Creature creature)
@@ -46,7 +45,6 @@ namespace TheValley.Scripts.AI.Behavior
             {
                 return;
             }
-            GD.Print($"{creature.Name} Start wandering");
             _wanderTimer -= creature.Delta;
             if (_wanderTimer <= 0.0f)
             {
@@ -60,7 +58,6 @@ namespace TheValley.Scripts.AI.Behavior
 
                 randomDirection = randomDirection.Normalized() * creature.Speed;
                 creature.Velocity = randomDirection;
-                GD.Print($"{creature.Name} New Velocity: {creature.Velocity}");
             }
             else
             {

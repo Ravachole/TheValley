@@ -30,8 +30,6 @@ namespace TheValley.Scripts.Models
             {
                 Velocity = Vector3.Zero;
             }
-            GD.Print("Herbivore state : " + CurrentState);
-            GD.Print($"Applying Velocity: {Velocity}");
             MoveAndSlide();
         }
     }

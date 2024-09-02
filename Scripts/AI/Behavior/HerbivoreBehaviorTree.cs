@@ -88,7 +88,7 @@ namespace TheValley.Scripts.AI.Behavior
         {
             var herbivore = (Herbivore)creature;
             bool isHungry = herbivore.Hunger.IsBelowThreshold();
-            GD.Print($"{creature.Name} is Hungry: {isHungry} (Current: {herbivore.Hunger.Current}, Threshold: {herbivore.Hunger.Threshold})");
+            // GD.Print($"{creature.Name} is Hungry: {isHungry} (Current: {herbivore.Hunger.Current}, Threshold: {herbivore.Hunger.Threshold})");
             return isHungry;
         }
 
@@ -134,7 +134,7 @@ namespace TheValley.Scripts.AI.Behavior
         {
             var herbivore = (Herbivore)creature;
             bool isThirsty = herbivore.Thirst.IsBelowThreshold();
-            GD.Print($"{herbivore.Name} is Thirsty: {isThirsty} (Current: {herbivore.Thirst.Current}, Threshold: {herbivore.Thirst.Threshold})");
+            // GD.Print($"{herbivore.Name} is Thirsty: {isThirsty} (Current: {herbivore.Thirst.Current}, Threshold: {herbivore.Thirst.Threshold})");
             return isThirsty;
         }
 
@@ -180,7 +180,7 @@ namespace TheValley.Scripts.AI.Behavior
         {
             var herbivore = (Herbivore)creature;
             bool isTired = herbivore.Stamina.IsBelowThreshold();
-            GD.Print($"{herbivore.Name} is Tired: {isTired} (Current: {herbivore.Stamina.Current}, Threshold: {herbivore.Stamina.Threshold})");
+            // GD.Print($"{herbivore.Name} is Tired: {isTired} (Current: {herbivore.Stamina.Current}, Threshold: {herbivore.Stamina.Threshold})");
             return isTired;
         }
 
