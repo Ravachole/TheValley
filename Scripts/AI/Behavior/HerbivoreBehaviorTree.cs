@@ -95,13 +95,13 @@ namespace TheValley.Scripts.AI.Behavior
         private bool IsFoodNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for food");
-            return creature.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("food"));
+            return creature.Senses.GetSmeltItems().Exists(body => body.IsInGroup("food"));
         }
 
         private void MoveToFood(Creature creature)
         {
             var herbivore = (Herbivore)creature;
-            var food = herbivore.GetNode<Area3D>("FoodDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("food"));
+            var food = creature.Senses.GetSmeltItems().Find(body => body.IsInGroup("food"));
             if (food != null)
             {
                 // herbivore.SetState(CreatureState.Wandering);
@@ -142,7 +142,7 @@ namespace TheValley.Scripts.AI.Behavior
         private bool IsWaterNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for water");
-            bool foundWater = creature.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().Any(body => body.IsInGroup("water"));
+            bool foundWater = creature.Senses.GetSmeltItems().Exists(body => body.IsInGroup("water"));
             if (foundWater)
                 GD.Print(nameof(Herbivore) + " found");
             return foundWater;
@@ -151,7 +151,7 @@ namespace TheValley.Scripts.AI.Behavior
         private void MoveToWater(Creature creature)
         {
             var herbivore = (Herbivore)creature;
-            var water = herbivore.GetNode<Area3D>("WaterDetectionArea").GetOverlappingBodies().FirstOrDefault(body => body.IsInGroup("water"));
+            var water = creature.Senses.GetSmeltItems().Find(body => body.IsInGroup("water"));
             if (water != null)
             {
                 herbivore.Velocity = (water.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
