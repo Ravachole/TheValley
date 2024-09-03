@@ -1,34 +1,34 @@
 using Godot;
+using TheValley.Scripts.AI.Behavior;
+using TheValley.Scripts.Models.Senses;
 
-public partial class Herbivore : Creature {
+namespace TheValley.Scripts.Models
+{
+    public partial class Herbivore : Creature {
 
-    private HerbivoreBehaviorTree _behaviorTree;
-    public override void _Ready()
-    {
-        _behaviorTree = new HerbivoreBehaviorTree();
-        _waterDetectionArea = GetNode<Area3D>("WaterDetectionArea");
-        _foodDetectionArea = GetNode<Area3D>("FoodDetectionArea");
+        private HerbivoreBehaviorTree _behaviorTree;
 
-        _waterDetectionArea.BodyEntered += OnWaterEntered;
-        _foodDetectionArea.BodyEntered += OnFoodEntered;
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        thirst.Update(delta);
-        hunger.Update(delta);
-        stamina.Update(delta);
-        // delta updated
-        Delta = (float)delta;
-        //Update behavior tree
-        _behaviorTree.Update(this);
-        // Apply the behavior tree velocity with state check
-        if (CurrentState != CreatureState.Wandering)
+        public override void _Ready()
         {
-            Velocity = Vector3.Zero;
+            _behaviorTree = new HerbivoreBehaviorTree();
+            Senses = new SensesHandler(this, new Vector3(15,15,15));
         }
-        GD.Print("Herbivore state : " + CurrentState);
-        GD.Print($"Applying Velocity: {Velocity}");
-        MoveAndSlide();
+
+        public override void _PhysicsProcess(double delta)
+        {
+            Thirst.Update(delta);
+            Hunger.Update(delta);
+            Stamina.Update(delta);
+            // delta updated
+            Delta = (float)delta;
+            //Update behavior tree
+            _behaviorTree.Update(this);
+            // Apply the behavior tree velocity with state check
+            if (CurrentState != CreatureState.Wandering)
+            {
+                Velocity = Vector3.Zero;
+            }
+            MoveAndSlide();
+        }
     }
 }
