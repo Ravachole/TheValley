@@ -1,19 +1,17 @@
 using Godot;
 using TheValley.Scripts.AI.Behavior;
+using TheValley.Scripts.Models.Senses;
 
 namespace TheValley.Scripts.Models
 {
     public partial class Herbivore : Creature {
 
         private HerbivoreBehaviorTree _behaviorTree;
+
         public override void _Ready()
         {
             _behaviorTree = new HerbivoreBehaviorTree();
-            _waterDetectionArea = GetNode<Area3D>("WaterDetectionArea");
-            _foodDetectionArea = GetNode<Area3D>("FoodDetectionArea");
-
-            _waterDetectionArea.BodyEntered += OnWaterEntered;
-            _foodDetectionArea.BodyEntered += OnFoodEntered;
+            Senses = new SensesHandler(this, new Vector3(15,15,15));
         }
 
         public override void _PhysicsProcess(double delta)
