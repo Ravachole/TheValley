@@ -24,6 +24,7 @@ namespace TheValley.Scripts.Models
         public Stamina Stamina { get; private set; }
         public List<Need> Needs { get; set; }
         public SensesHandler Senses { get; set; }
+        public float EatingAmount { get;set; }
 
         // End Metabolism stats
 
@@ -45,6 +46,7 @@ namespace TheValley.Scripts.Models
             Thirst = new Thirst();
             Hunger = new Hunger();
             Stamina = new Stamina();
+            EatingAmount = 5.0f;
         }
         public void SetState(CreatureState state)
         {

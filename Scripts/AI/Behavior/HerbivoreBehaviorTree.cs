@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using TheValley.Scripts.Models;
+using TheValley.Scripts.Models.Item.Consumable;
 
 namespace TheValley.Scripts.AI.Behavior
 {
     public class HerbivoreBehaviorTree : BaseBehaviorTree
     {
+        private Food CurrentFood;
+        private Water CurrentWater;
         public HerbivoreBehaviorTree() : base() { 
             Initialize();
         }
@@ -88,24 +91,24 @@ namespace TheValley.Scripts.AI.Behavior
         {
             var herbivore = (Herbivore)creature;
             bool isHungry = herbivore.Hunger.IsBelowThreshold();
-            // GD.Print($"{creature.Name} is Hungry: {isHungry} (Current: {herbivore.Hunger.Current}, Threshold: {herbivore.Hunger.Threshold})");
+
             return isHungry;
         }
 
         private bool IsFoodNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for food");
-            return creature.Senses.GetSmeltItems().Exists(body => body.IsInGroup("food"));
+            CurrentFood = creature.Senses.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;
+
+            return CurrentFood != null;
         }
 
         private void MoveToFood(Creature creature)
         {
             var herbivore = (Herbivore)creature;
-            var food = creature.Senses.GetSmeltItems().Find(body => body.IsInGroup("food"));
-            if (food != null)
+            if (CurrentFood != null)
             {
-                // herbivore.SetState(CreatureState.Wandering);
-                herbivore.Velocity = (food.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
+                herbivore.Velocity = (CurrentFood.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
                 GD.Print($"{herbivore.Name} Start moving to food at {herbivore.Velocity}");
             }
         }
@@ -118,7 +121,9 @@ namespace TheValley.Scripts.AI.Behavior
             herbivore.Hunger.CurrentDrain = 0.0f;
             while (!HasEatenEnough(herbivore))
             {
-                herbivore.Hunger.Current += 10.0f;
+                herbivore.Hunger.Current += herbivore.EatingAmount;
+                CurrentFood.Value -= herbivore.EatingAmount;
+                CurrentFood.Update();
             }
             herbivore.SetState(CreatureState.Wandering);
             GD.Print($"{herbivore.Name} has eaten enough and will resume normal behavior.");
@@ -142,19 +147,16 @@ namespace TheValley.Scripts.AI.Behavior
         private bool IsWaterNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for water");
-            bool foundWater = creature.Senses.GetSmeltItems().Exists(body => body.IsInGroup("water"));
-            if (foundWater)
-                GD.Print(nameof(Herbivore) + " found");
-            return foundWater;
+            CurrentWater = creature.Senses.GetSmeltItems().Find(body => body.IsInGroup("water")) as Water;
+            return CurrentWater != null;
         }
 
         private void MoveToWater(Creature creature)
         {
             var herbivore = (Herbivore)creature;
-            var water = creature.Senses.GetSmeltItems().Find(body => body.IsInGroup("water"));
-            if (water != null)
+            if (CurrentWater != null)
             {
-                herbivore.Velocity = (water.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
+                herbivore.Velocity = (CurrentWater.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
                 GD.Print($"{herbivore.Name} Start moving to water at {herbivore.Velocity}");
             }
         }
@@ -168,6 +170,9 @@ namespace TheValley.Scripts.AI.Behavior
             while (!HasDrunkEnough(herbivore))
             {
                 herbivore.Thirst.Current += 5.0f;
+                herbivore.Thirst.Current += herbivore.EatingAmount;
+                CurrentWater.Value -= herbivore.EatingAmount;
+                CurrentWater.Update();
             }
             herbivore.SetState(CreatureState.Wandering);
             GD.Print($"{herbivore.Name} has drunk enough and will resume normal behavior.");

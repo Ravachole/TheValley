@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bu45mm16pv0ug"]
+[gd_scene load_steps=5 format=3 uid="uid://bu45mm16pv0ug"]
+
+[ext_resource type="Script" path="res://Scripts/Models/Item/Consumable/Water.cs" id="1_4bo7s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5iwj1"]
 
@@ -11,6 +13,7 @@ albedo_color = Color(0.359454, 0.53131, 1, 1)
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, -27.3781)
 collision_layer = 2
 collision_mask = 3
+script = ExtResource("1_4bo7s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["water"]]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
