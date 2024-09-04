@@ -11,7 +11,9 @@ namespace TheValley.Scripts.Models
         public override void _Ready()
         {
             _behaviorTree = new HerbivoreBehaviorTree();
-            Senses = new SensesHandler(this, new Vector3(25,25,25));
+            Smell = new Smell(this, new Vector3(25,25,25));
+            Vision = new Vision();
+            this.AddChild(Vision.Initialize());
         }
 
         public override void _PhysicsProcess(double delta)

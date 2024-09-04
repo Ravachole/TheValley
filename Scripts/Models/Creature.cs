@@ -23,10 +23,13 @@ namespace TheValley.Scripts.Models
         public Hunger Hunger { get; private set; }
         public Stamina Stamina { get; private set; }
         public List<Need> Needs { get; set; }
-        public SensesHandler Senses { get; set; }
         public float EatingAmount { get;set; }
-
         // End Metabolism stats
+
+        // Senses 
+        public Smell Smell { get; set; }
+        public Vision Vision {get;set;}
+        // End Senses
 
         // Public custom values
         [Export] public float Speed = 10f;
@@ -39,6 +42,7 @@ namespace TheValley.Scripts.Models
 
         // Delta needed in behavior context for timed actions
         public float Delta {get; set;}
+        public float RotationSpeed { get; set; } = 0.5f;
         
 
         // Constructor
