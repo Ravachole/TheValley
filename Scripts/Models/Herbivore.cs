@@ -11,7 +11,7 @@ namespace TheValley.Scripts.Models
         public override void _Ready()
         {
             _behaviorTree = new HerbivoreBehaviorTree();
-            Senses = new SensesHandler(this, new Vector3(15,15,15));
+            Senses = new SensesHandler(this, new Vector3(25,25,25));
         }
 
         public override void _PhysicsProcess(double delta)

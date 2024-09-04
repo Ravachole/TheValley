@@ -20,6 +20,7 @@ namespace TheValley.Scripts.Models.Item
         public Timer RegenerationTimer {get;set;}
         public float Regeneration {get;set;}
         public ItemState State {get;set;}
+        public MeshInstance3D MeshInstance { get; set; }
 
         protected Item(string _name, float _maximum = 100.0f, float _regeneration = 0.0f, float _regenerationInterval = 10.0f, ItemState _state = ItemState.FULL)
         {
@@ -37,13 +38,22 @@ namespace TheValley.Scripts.Models.Item
         }
         public virtual void Update()
         {
+            var material = MeshInstance.GetActiveMaterial(0).Duplicate() as StandardMaterial3D;
             GD.Print(nameof(Item) + " current value is :  " + Value);
-            if (Value == Maximum)
+            if (Value == Maximum) {
                 ChangeState(ItemState.FULL);
-            else if (Value <= 0.0f)
+                material.AlbedoColor = new Color(0, 1, 0); // Green for FULL
+            }
+   
+            else if (Value <= 0.0f) {
                 ChangeState(ItemState.DEPLETED);
-            else
+                material.AlbedoColor = new Color(1, 1, 0); // Yellow for CONSUMED
+            }
+                
+            else {
                 ChangeState(ItemState.CONSUMED);
+                material.AlbedoColor = new Color(1, 0, 0); // Red for DEPLETED
+            }      
         }
         private void OnRegenerate()
         {

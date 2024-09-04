@@ -7,16 +7,15 @@ height = 2.62451
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pbpnd"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_al14h"]
-sky_top_color = Color(0.452438, 0.842315, 0.974144, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e86sw"]
 
-[sub_resource type="Sky" id="Sky_yr68c"]
-sky_material = SubResource("ProceduralSkyMaterial_al14h")
+[sub_resource type="Sky" id="Sky_2js28"]
+sky_material = SubResource("ProceduralSkyMaterial_e86sw")
 
 [sub_resource type="Environment" id="Environment_0t6gm"]
 background_mode = 2
 background_energy_multiplier = 1.23
-sky = SubResource("Sky_yr68c")
+sky = SubResource("Sky_2js28")
 ambient_light_source = 3
 ambient_light_color = Color(0.698112, 0.736371, 0.779099, 1)
 

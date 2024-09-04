@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" path="res://Scripts/Models/Item/Consumable/Food.cs" id="1_dbrfh"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_d5su1"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_av1vf"]
+radius = 5.0
 
 [sub_resource type="PrismMesh" id="PrismMesh_3ins6"]
+size = Vector3(5, 5, 5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m6kf3"]
 albedo_color = Color(0.4, 1, 0.305882, 1)
@@ -16,11 +18,9 @@ collision_mask = 3
 script = ExtResource("1_dbrfh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["food"]]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
-shape = SubResource("SphereShape3D_d5su1")
+shape = SubResource("SphereShape3D_av1vf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["food"]]
-transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
 layers = 2
 mesh = SubResource("PrismMesh_3ins6")
 surface_material_override/0 = SubResource("StandardMaterial3D_m6kf3")
