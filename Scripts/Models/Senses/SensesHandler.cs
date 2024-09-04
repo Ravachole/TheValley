@@ -7,14 +7,14 @@ namespace TheValley.Scripts.Models.Senses
 {
     public class SensesHandler
     {
-        private Area3D _smellArea {get;set;}
-        private Vector3 _smellAreaScale {get;set;}
-        private Creature _creature {get;set;}
-        private RayCast3D _visionCast {get;set;}
+        private Area3D SmellArea {get;set;}
+        private Vector3 SmellAreaScale {get;set;}
+        private Creature Creature {get;set;}
+        private RayCast3D VisionCast {get;set;}
 
         public SensesHandler(Creature creature, Vector3 smellAreaScale) {
-            _smellAreaScale = smellAreaScale;
-            _creature = creature;
+            SmellAreaScale = smellAreaScale;
+            Creature = creature;
             InitializeSmell();
             ConnectSmellAreaSignals();
         }
@@ -26,12 +26,12 @@ namespace TheValley.Scripts.Models.Senses
             ** new creatures setup easily
             **/
             // Check if SmellArea already exists
-            if (_creature.GetNodeOrNull<Area3D>("SmellArea") == null)
+            if (Creature.GetNodeOrNull<Area3D>("SmellArea") == null)
             {
-                _smellArea = new Area3D
+                SmellArea = new Area3D
                 {
                     Name = "SmellArea",
-                    Scale = _smellAreaScale,
+                    Scale = SmellAreaScale,
                     CollisionLayer = 2,
                     CollisionMask = 1 | 2,
                     Monitoring = true
@@ -39,26 +39,26 @@ namespace TheValley.Scripts.Models.Senses
                 // Create and configure the CollisionShape3D
                 var collisionShape = new CollisionShape3D();
                 var shape = new SphereShape3D {
-                    Radius = _smellArea.Scale.X / 2
+                    Radius = SmellArea.Scale.X / 2
                 };
                 collisionShape.Shape = shape;
 
-                _smellArea.AddChild(collisionShape);
-                _creature.AddChild(_smellArea);
+                SmellArea.AddChild(collisionShape);
+                Creature.AddChild(SmellArea);
             }
             else
             {
-                _smellArea = _creature.GetNode<Area3D>("SmellArea");
+                SmellArea = Creature.GetNode<Area3D>("SmellArea");
             }
         }
 
         // Method to connect signals for the smell area
         private void ConnectSmellAreaSignals()
         {
-            if (_smellArea != null)
+            if (SmellArea != null)
             {
-                _smellArea.BodyEntered += OnSmellAreaBodyEntered;
-                _smellArea.BodyExited += OnSmellAreaBodyExited;
+                SmellArea.BodyEntered += OnSmellAreaBodyEntered;
+                SmellArea.BodyExited += OnSmellAreaBodyExited;
             }
         }
 
@@ -80,7 +80,7 @@ namespace TheValley.Scripts.Models.Senses
         // Method to get the list of currently detected smelt items (food or water)
         public List<Node3D> GetSmeltItems()
         {
-            return _smellArea.GetOverlappingBodies().ToList();
+            return SmellArea.GetOverlappingBodies().ToList();
         }
     }
 }
