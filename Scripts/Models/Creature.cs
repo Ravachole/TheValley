@@ -24,7 +24,7 @@ namespace TheValley.Scripts.Models
         public Stamina Stamina { get; private set; }
         public List<Need> Needs { get; set; }
         public SensesHandler Senses { get; set; }
-        public float EatingAmount {get;set;}
+        public float EatingAmount { get;set; }
 
         // End Metabolism stats
 

@@ -17,12 +17,18 @@ namespace TheValley.Scripts.Models.Item
             set => _value = Mathf.Clamp(value, 0.0f, Maximum);
         }
         public float Maximum {get;set;}
+        public Timer RegenerationTimer {get;set;}
         public float Regeneration {get;set;}
         public ItemState State {get;set;}
 
-        protected Item(string _name, float _maximum = 100.0f, float _regeneration = 0.0f, ItemState _state = ItemState.FULL)
+        protected Item(string _name, float _maximum = 100.0f, float _regeneration = 0.0f, float _regenerationInterval = 10.0f, ItemState _state = ItemState.FULL)
         {
             Name = _name;
+            RegenerationTimer = new Timer();
+            RegenerationTimer.WaitTime = _regenerationInterval;
+            RegenerationTimer.OneShot = false;
+            RegenerationTimer.Timeout += OnRegenerate;
+            AddChild(RegenerationTimer);
         }
         public virtual void ChangeState(ItemState itemState)
         {
@@ -38,6 +44,14 @@ namespace TheValley.Scripts.Models.Item
                 ChangeState(ItemState.DEPLETED);
             else
                 ChangeState(ItemState.CONSUMED);
+        }
+        private void OnRegenerate()
+        {
+            if (Value < Maximum)
+            {
+                Value += Regeneration;
+                Update(); // Call the Update method to handle state changes
+            }
         }
     }
 }
