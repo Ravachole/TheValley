@@ -5,20 +5,18 @@ using System.Collections.Generic;
 
 namespace TheValley.Scripts.Models.Senses
 {
-    public class SensesHandler
+    public class Smell
     {
         private Area3D SmellArea {get;set;}
         private Vector3 SmellAreaScale {get;set;}
         private Creature Creature {get;set;}
-        private RayCast3D VisionCast {get;set;}
 
-        public SensesHandler(Creature creature, Vector3 smellAreaScale) {
+        public Smell(Creature creature, Vector3 smellAreaScale) {
             SmellAreaScale = smellAreaScale;
             Creature = creature;
             InitializeSmell();
             ConnectSmellAreaSignals();
         }
-
         private void InitializeSmell()
         {
             /**
