@@ -23,11 +23,13 @@ namespace TheValley.Scripts.Models
         public Hunger Hunger { get; private set; }
         public Stamina Stamina { get; private set; }
         public List<Need> Needs { get; set; }
+        public float EatingAmount { get;set; }
+        // End Metabolism stats
+
+        // Senses 
         public Smell Smell { get; set; }
         public Vision Vision {get;set;}
-        public float EatingAmount { get;set; }
-
-        // End Metabolism stats
+        // End Senses
 
         // Public custom values
         [Export] public float Speed = 10f;

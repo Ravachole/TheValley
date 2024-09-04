@@ -46,7 +46,7 @@ namespace TheValley.Scripts.Models.Senses
             _visibleObjects.Remove(body);
             GD.Print("Object left vision: " + body.Name);
         }
-
+        // Define a vision arc from the sphere colliderSphere3D
         private bool IsWithinVisionArc(Node3D body)
         {
             Vector3 toBody = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized();
