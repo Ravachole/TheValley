@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cw72b2hwdd1qk"]
+[gd_scene load_steps=9 format=3 uid="uid://cw72b2hwdd1qk"]
 
 [ext_resource type="PackedScene" uid="uid://nauco1oweg72" path="res://Assets/Actors/Bizut.tscn" id="1_8jhrj"]
 [ext_resource type="PackedScene" uid="uid://dlbjic1fq5h7u" path="res://Assets/Resources/food.tscn" id="2_maeru"]
 [ext_resource type="PackedScene" uid="uid://bu45mm16pv0ug" path="res://Assets/Resources/water.tscn" id="3_jhp1f"]
 [ext_resource type="PackedScene" uid="uid://dk0smly06u0id" path="res://Assets/Actors/herbivore.tscn" id="4_ydadr"]
+[ext_resource type="PackedScene" uid="uid://48dodwfyh6we" path="res://Assets/Resources/obstacle.tscn" id="5_n13k7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0x0c"]
 size = Vector3(300, 2, 300)
@@ -45,3 +46,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559784, 1, 146.789)
 
 [node name="Herbivore" parent="." instance=ExtResource("4_ydadr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.3528, 0.532908, 0)
+
+[node name="Obstacle" parent="." instance=ExtResource("5_n13k7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, -94)
+
+[node name="Obstacle2" parent="." instance=ExtResource("5_n13k7")]
+transform = Transform3D(0.515547, 0, -0.856862, 0, 1, 0, 0.856862, 0, 0.515547, -112.683, 3, -37.6091)
+
+[node name="Obstacle3" parent="." instance=ExtResource("5_n13k7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 94.3331)
