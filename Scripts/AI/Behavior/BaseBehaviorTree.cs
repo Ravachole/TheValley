@@ -11,7 +11,7 @@ namespace TheValley.Scripts.AI.Behavior
         protected IBehaviorNode _root;
         private readonly Random _random = new Random();
         private float _wanderTimer = 0.0f;
-        private const float _wanderInterval = 10.0f;
+        private const float _wanderInterval = 3.0f;
 
         protected BaseBehaviorTree()
         {

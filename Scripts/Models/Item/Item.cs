@@ -22,6 +22,11 @@ namespace TheValley.Scripts.Models.Item
         public ItemState State {get;set;}
         public MeshInstance3D MeshInstance { get; set; }
 
+        public override void _Ready()
+        {
+            MeshInstance = GetNode<MeshInstance3D>("MeshInstance3D");
+        }
+
         protected Item(string _name, float _maximum = 100.0f, float _regeneration = 0.0f, float _regenerationInterval = 10.0f, ItemState _state = ItemState.FULL)
         {
             Name = _name;
@@ -29,6 +34,7 @@ namespace TheValley.Scripts.Models.Item
             RegenerationTimer.WaitTime = _regenerationInterval;
             RegenerationTimer.OneShot = false;
             RegenerationTimer.Timeout += OnRegenerate;
+            
             AddChild(RegenerationTimer);
         }
         public virtual void ChangeState(ItemState itemState)

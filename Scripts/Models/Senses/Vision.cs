@@ -8,7 +8,7 @@ namespace TheValley.Scripts.Models.Senses
     public partial class Vision : Node3D
     {
         private Area3D _visionArea;
-        private float _visionRange = 50.0f;  // Radius of the vision sphere
+        private float _visionRange = 150.0f;  // Radius of the vision sphere
         private float _fovAngle = 90.0f;     // Field of view in degrees
         private List<Node3D> _visibleObjects = new List<Node3D>();
         public override void _Ready()
@@ -69,7 +69,27 @@ namespace TheValley.Scripts.Models.Senses
             Vector3 forward = GlobalTransform.Basis.Z.Normalized();
             float angleToBody = Mathf.RadToDeg(Mathf.Acos(forward.Dot(toBody)));
 
-            return angleToBody <= (_fovAngle / 2);
+            // Check if the object is within the field of view (FOV)
+            if (angleToBody > (_fovAngle / 2))
+            {
+                return false;
+            }
+            // Perform a raycast to ensure there are no obstacles in the way
+            var spaceState = GetWorld3D().DirectSpaceState;
+            var parent = GetParent() as Node3D;
+            var query = PhysicsRayQueryParameters3D.Create(GlobalTransform.Origin, body.GlobalTransform.Origin, 1);
+            
+            var result = spaceState.IntersectRay(query);
+
+            // If the ray hits something, it means there's an obstacle in the way
+            if (result.Count > 0)
+            {
+                GD.Print("Object blocked by an obstacle: " + result["collider"].ToString());
+                return false;
+            }
+
+            // If no obstacle was hit, the object is within the vision arc and in line of sight
+            return true;
         }
 
         public List<Node3D> GetVisibleObjects()

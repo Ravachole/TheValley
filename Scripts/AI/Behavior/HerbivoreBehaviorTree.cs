@@ -161,11 +161,10 @@ namespace TheValley.Scripts.AI.Behavior
             var herbivore = (Herbivore)creature;
             if (CurrentWater != null)
             {
-                herbivore.NavigationAgent.SetTargetPosition(CurrentWater.GlobalTransform.Origin);
+                herbivore.NavigationAgent.TargetPosition = CurrentWater.GlobalTransform.Origin;
                 Vector3 nextPosition = herbivore.NavigationAgent.GetNextPathPosition();
-                Vector3 direction = (nextPosition - herbivore.GlobalTransform.Origin).Normalized();
+                Vector3 direction = (nextPosition - herbivore.GlobalPosition).Normalized();
                 herbivore.Velocity = direction * herbivore.Speed;
-                // herbivore.Velocity = (CurrentWater.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
                 GD.Print($"{herbivore.Name} Start moving to water at {herbivore.Velocity}");
             }
         }
@@ -180,7 +179,6 @@ namespace TheValley.Scripts.AI.Behavior
                 herbivore.Thirst.CurrentDrain = 0.0f;
                 while (!HasDrunkEnough(herbivore))
                 {
-                    herbivore.Thirst.Current += 5.0f;
                     herbivore.Thirst.Current += herbivore.EatingAmount;
                     CurrentWater.Value -= herbivore.EatingAmount;
                     CurrentWater.Update();

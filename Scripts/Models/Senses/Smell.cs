@@ -31,7 +31,7 @@ namespace TheValley.Scripts.Models.Senses
                     Name = "SmellArea",
                     Scale = SmellAreaScale,
                     CollisionLayer = 2,
-                    CollisionMask = 1 | 2,
+                    CollisionMask = 2,
                     Monitoring = true
                 };
                 // Create and configure the CollisionShape3D
