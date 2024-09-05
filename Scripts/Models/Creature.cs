@@ -13,7 +13,9 @@ namespace TheValley.Scripts.Models
         Eating,
         Drinking,
         Sleeping,
-        Wandering
+        Wandering,
+        Searching,
+        Smelling
     }
     public abstract partial class Creature : CharacterBody3D
     {
@@ -22,27 +24,27 @@ namespace TheValley.Scripts.Models
         public Thirst Thirst { get; private set; }
         public Hunger Hunger { get; private set; }
         public Stamina Stamina { get; private set; }
-        public List<Need> Needs { get; set; }
         public float EatingAmount { get;set; }
         // End Metabolism stats
 
         // Senses 
         public Smell Smell { get; set; }
         public Vision Vision {get;set;}
+        public NavigationAgent3D NavigationAgent {get;set;}
         // End Senses
 
         // Public custom values
-        [Export] public float Speed = 10f;
-        [Export] public float DetectionRadius = 15f;
+        [Export] public float Speed { get; set; } = 10f;
+        [Export] public float DetectionRadius { get; set; } = 15f;
+        [Export] public float RotationSpeed { get; set; } = 0.5f;
         // End public custom values
+
+        // Delta needed in behavior context for timed actions
+        public float Delta {get; set;}
         // Abstracts mandatory methods
         public abstract override void _PhysicsProcess(double delta);
         public abstract override void _Ready();
         // End Abstracts mandatory methods
-
-        // Delta needed in behavior context for timed actions
-        public float Delta {get; set;}
-        public float RotationSpeed { get; set; } = 0.5f;
         
 
         // Constructor

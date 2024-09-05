@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TheValley.Scripts.Models.Senses
 {
@@ -10,7 +11,14 @@ namespace TheValley.Scripts.Models.Senses
         private float _visionRange = 50.0f;  // Radius of the vision sphere
         private float _fovAngle = 90.0f;     // Field of view in degrees
         private List<Node3D> _visibleObjects = new List<Node3D>();
-        public Area3D Initialize()
+        public override void _Ready()
+        {
+            base._Ready();
+            Initialize();
+            ConnectVisionSignals();
+        }
+
+        public void Initialize()
         {
             // Initialize the vision area
             _visionArea = new Area3D();
@@ -25,11 +33,16 @@ namespace TheValley.Scripts.Models.Senses
             collisionShape.Shape = sphereShape;
 
             _visionArea.AddChild(collisionShape);
-            // Connect signals
-            _visionArea.BodyEntered += OnVisionAreaBodyEntered;
-            _visionArea.BodyExited += OnVisionAreaBodyExited;
+            AddChild(_visionArea);
+        }
 
-            return _visionArea;
+        private void ConnectVisionSignals()
+        {
+            if (_visionArea != null)
+            {
+                _visionArea.BodyEntered += OnVisionAreaBodyEntered;
+                _visionArea.BodyExited += OnVisionAreaBodyExited;
+            }
         }
 
         private void OnVisionAreaBodyEntered(Node3D body)
@@ -43,15 +56,17 @@ namespace TheValley.Scripts.Models.Senses
 
         private void OnVisionAreaBodyExited(Node3D body)
         {
-            _visibleObjects.Remove(body);
-            GD.Print("Object left vision: " + body.Name);
+            if (_visibleObjects.Exists(node => node.Name == body.Name))
+            {
+                _visibleObjects.Remove(body);
+                GD.Print("Object left vision: " + body.Name);
+            }
         }
         // Define a vision arc from the sphere colliderSphere3D
         private bool IsWithinVisionArc(Node3D body)
         {
             Vector3 toBody = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized();
             Vector3 forward = GlobalTransform.Basis.Z.Normalized();
-
             float angleToBody = Mathf.RadToDeg(Mathf.Acos(forward.Dot(toBody)));
 
             return angleToBody <= (_fovAngle / 2);

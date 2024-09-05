@@ -45,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -144.537, 1, -27.378)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559784, 1, 146.789)
 
 [node name="Herbivore" parent="." instance=ExtResource("4_ydadr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.3528, 0.532908, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.3528, 0.532908, -111.189)
 
 [node name="Obstacle" parent="." instance=ExtResource("5_n13k7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, -94)
