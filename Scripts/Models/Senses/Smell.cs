@@ -1,12 +1,16 @@
-using System;
 using Godot;
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using TheValley.Scripts.Models.Metabolism;
+using TheValley.Scripts.Models.Item.Consumable;
+
 
 namespace TheValley.Scripts.Models.Senses
 {
-    public class Smell
+    public partial class Smell : Node3D
     {
+        [Signal] public delegate void ObjectSmeltEventHandler(Node3D obj);
         private Area3D SmellArea {get;set;}
         private Vector3 SmellAreaScale {get;set;}
         private Creature Creature {get;set;}
@@ -61,11 +65,12 @@ namespace TheValley.Scripts.Models.Senses
         }
 
         // Method to handle when a body enters the smell area
-        private static void OnSmellAreaBodyEntered(Node3D body)
+        private void OnSmellAreaBodyEntered(Node3D body)
         {
             if (body.IsInGroup("food") || body.IsInGroup("water"))
             {
                 GD.Print("Smell detected and added to list: " + body.Name);
+                EmitSignal(nameof(ObjectSmelt), body); // Emit custom signal
             }
         }
 

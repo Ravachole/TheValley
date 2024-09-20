@@ -2,11 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TheValley.Scripts.Models.Metabolism;
+using TheValley.Scripts.Models.Item.Consumable;
 
 namespace TheValley.Scripts.Models.Senses
 {
     public partial class Vision : Node3D
     {
+        [Signal] public delegate void ObjectSeenEventHandler(Node3D obj);
         private Area3D _visionArea;
         private float _visionRange = 150.0f;  // Radius of the vision sphere
         private float _fovAngle = 90.0f;     // Field of view in degrees
@@ -49,8 +52,12 @@ namespace TheValley.Scripts.Models.Senses
         {
             if (IsWithinVisionArc(body))
             {
-                _visibleObjects.Add(body);
                 GD.Print("Object in vision: " + body.Name);
+                // Check if the object is food or water and emit the custom signal
+                if (body is Food || body is Water)
+                {
+                    EmitSignal(nameof(ObjectSeen), body); // Emit custom signal
+                }
             }
         }
 
@@ -84,11 +91,11 @@ namespace TheValley.Scripts.Models.Senses
             // If the ray hits something, it means there's an obstacle in the way
             if (result.Count > 0)
             {
-                GD.Print("Object blocked by an obstacle: " + result["collider"].ToString());
                 return false;
             }
 
             // If no obstacle was hit, the object is within the vision arc and in line of sight
+            GD.Print(nameof(body) + " Has Been seen");
             return true;
         }
 

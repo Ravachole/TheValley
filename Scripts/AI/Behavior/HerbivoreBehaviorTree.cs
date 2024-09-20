@@ -99,6 +99,10 @@ namespace TheValley.Scripts.AI.Behavior
         {
             GD.Print($"{creature.Name} Start looking for food");
             CurrentFood = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;
+            if (CurrentFood == null) 
+            {
+                CurrentFood = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;
+            }
 
             return CurrentFood != null;
         }
@@ -108,8 +112,11 @@ namespace TheValley.Scripts.AI.Behavior
             var herbivore = (Herbivore)creature;
             if (CurrentFood != null)
             {
-                herbivore.Velocity = (CurrentFood.GlobalTransform.Origin - herbivore.GlobalTransform.Origin).Normalized() * herbivore.Speed;
-                GD.Print($"{herbivore.Name} Start moving to food at {herbivore.Velocity}");
+                herbivore.NavigationAgent.TargetPosition = CurrentFood.GlobalTransform.Origin;
+                Vector3 nextPosition = herbivore.NavigationAgent.GetNextPathPosition();
+                Vector3 direction = (nextPosition - herbivore.GlobalPosition).Normalized();
+                herbivore.Velocity = direction * herbivore.Speed;
+                GD.Print($"{herbivore.Name} Start moving to Food at {herbivore.Velocity}");
             }
         }
 
