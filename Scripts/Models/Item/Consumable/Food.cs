@@ -2,7 +2,7 @@ using Godot;
 
 namespace TheValley.Scripts.Models.Item.Consumable
 {
-    public partial class Food : Item 
+    public partial class Food : GeneralItem 
     {
         public Food() : base("food",100.0f,0.5f) {}
 

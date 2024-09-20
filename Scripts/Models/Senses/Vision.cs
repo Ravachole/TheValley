@@ -1,16 +1,27 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using TheValley.Scripts.Models.Metabolism;
+using TheValley.Scripts.Models.Item.Consumable;
 
 namespace TheValley.Scripts.Models.Senses
 {
     public partial class Vision : Node3D
     {
+        [Signal] public delegate void ObjectSeenEventHandler(Node3D obj);
         private Area3D _visionArea;
-        private float _visionRange = 50.0f;  // Radius of the vision sphere
+        private float _visionRange = 150.0f;  // Radius of the vision sphere
         private float _fovAngle = 90.0f;     // Field of view in degrees
         private List<Node3D> _visibleObjects = new List<Node3D>();
-        public Area3D Initialize()
+        public override void _Ready()
+        {
+            base._Ready();
+            Initialize();
+            ConnectVisionSignals();
+        }
+
+        public void Initialize()
         {
             // Initialize the vision area
             _visionArea = new Area3D();
@@ -25,36 +36,67 @@ namespace TheValley.Scripts.Models.Senses
             collisionShape.Shape = sphereShape;
 
             _visionArea.AddChild(collisionShape);
-            // Connect signals
-            _visionArea.BodyEntered += OnVisionAreaBodyEntered;
-            _visionArea.BodyExited += OnVisionAreaBodyExited;
+            AddChild(_visionArea);
+        }
 
-            return _visionArea;
+        private void ConnectVisionSignals()
+        {
+            if (_visionArea != null)
+            {
+                _visionArea.BodyEntered += OnVisionAreaBodyEntered;
+                _visionArea.BodyExited += OnVisionAreaBodyExited;
+            }
         }
 
         private void OnVisionAreaBodyEntered(Node3D body)
         {
             if (IsWithinVisionArc(body))
             {
-                _visibleObjects.Add(body);
                 GD.Print("Object in vision: " + body.Name);
+                // Check if the object is food or water and emit the custom signal
+                if (body is Food || body is Water)
+                {
+                    EmitSignal(nameof(ObjectSeen), body); // Emit custom signal
+                }
             }
         }
 
         private void OnVisionAreaBodyExited(Node3D body)
         {
-            _visibleObjects.Remove(body);
-            GD.Print("Object left vision: " + body.Name);
+            if (_visibleObjects.Exists(node => node.Name == body.Name))
+            {
+                _visibleObjects.Remove(body);
+                GD.Print("Object left vision: " + body.Name);
+            }
         }
         // Define a vision arc from the sphere colliderSphere3D
         private bool IsWithinVisionArc(Node3D body)
         {
             Vector3 toBody = (body.GlobalTransform.Origin - GlobalTransform.Origin).Normalized();
             Vector3 forward = GlobalTransform.Basis.Z.Normalized();
-
             float angleToBody = Mathf.RadToDeg(Mathf.Acos(forward.Dot(toBody)));
 
-            return angleToBody <= (_fovAngle / 2);
+            // Check if the object is within the field of view (FOV)
+            if (angleToBody > (_fovAngle / 2))
+            {
+                return false;
+            }
+            // Perform a raycast to ensure there are no obstacles in the way
+            var spaceState = GetWorld3D().DirectSpaceState;
+            var parent = GetParent() as Node3D;
+            var query = PhysicsRayQueryParameters3D.Create(GlobalTransform.Origin, body.GlobalTransform.Origin, 1);
+            
+            var result = spaceState.IntersectRay(query);
+
+            // If the ray hits something, it means there's an obstacle in the way
+            if (result.Count > 0)
+            {
+                return false;
+            }
+
+            // If no obstacle was hit, the object is within the vision arc and in line of sight
+            GD.Print(nameof(body) + " Has Been seen");
+            return true;
         }
 
         public List<Node3D> GetVisibleObjects()
