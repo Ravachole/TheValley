@@ -1,17 +1,16 @@
 using Godot;
+using TheValley.Scripts.Models.Item;
 
 namespace TheValley.Scripts.Models.Metabolism
 {
     public class MemoryEntry
     {
-        public Vector3 Position { get; set; }
-        public string ResourceType { get; set; }  // e.g., "food" or "water"
+        public GeneralItem item {get; set;}
         public float TimeStamp { get; set; }  // Time when it was last seen
 
-        public MemoryEntry(Vector3 position, string resourceType, float timeStamp)
+        public MemoryEntry(GeneralItem _item, float timeStamp)
         {
-            Position = position;
-            ResourceType = resourceType;
+            item = _item;
             TimeStamp = timeStamp;
         }
     }

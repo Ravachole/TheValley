@@ -67,7 +67,7 @@ namespace TheValley.Scripts.Models.Senses
         // Method to handle when a body enters the smell area
         private void OnSmellAreaBodyEntered(Node3D body)
         {
-            if (body.IsInGroup("food") || body.IsInGroup("water"))
+            if (body is Food || body is Water)
             {
                 GD.Print("Smell detected and added to list: " + body.Name);
                 EmitSignal(nameof(ObjectSmelt), body); // Emit custom signal

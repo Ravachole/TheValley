@@ -99,6 +99,8 @@ namespace TheValley.Scripts.AI.Behavior
         {
             GD.Print($"{creature.Name} Start looking for food");
             CurrentFood = creature.Vision.GetVisibleObjects().Find(body => body.IsInGroup("food")) as Food;
+            // CurrentFood = CurrentFood == null ? creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food : 
+            // creature.Memory.Find(body => body.IsInGroup("food"));
             if (CurrentFood == null) 
             {
                 CurrentFood = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;

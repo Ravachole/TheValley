@@ -1,6 +1,8 @@
 using System.Linq;
 using Godot;
 using TheValley.Scripts.AI.Behavior;
+using TheValley.Scripts.Models.Item.Consumable;
+using TheValley.Scripts.Models.Item;
 using TheValley.Scripts.Models.Senses;
 
 namespace TheValley.Scripts.Models
@@ -20,10 +22,9 @@ namespace TheValley.Scripts.Models
             CallDeferred(nameof(ConnectMemorySignals));
         }
 
-        private void OnObjectDetected(Node3D obj)
+        private void OnObjectDetected(GeneralItem obj)
         {
-            // Logic to add the object to memory
-            AddToMemory(obj.Position, obj.GetGroups().FirstOrDefault(),Time.GetTicksUsec());
+            AddToMemory(obj,Time.GetTicksUsec());
             GD.Print($"{obj.Name} added to memory as a resource.");
         }
 

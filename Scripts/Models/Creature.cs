@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using TheValley.Scripts.Models.Metabolism;
 using TheValley.Scripts.Models.Senses;
+using TheValley.Scripts.Models.Item;
 
 namespace TheValley.Scripts.Models
 {
@@ -60,30 +61,31 @@ namespace TheValley.Scripts.Models
             CurrentState = state;
             GD.Print("Herbivore is in state : " + state);
         }
-        public void AddToMemory(Vector3 position, string resourceType, float currentTime)
+        public void AddToMemory(GeneralItem item, float currentTime)
         {
             // Check if this resource was already remembered, and update it
-            var existingMemory = Memory.FirstOrDefault(m => m.ResourceType == resourceType && m.Position == position);
+            var existingMemory = Memory.FirstOrDefault(m => m.item == item);
             if (existingMemory != null)
             {
                 existingMemory.TimeStamp = currentTime; // Update timestamp
             }
             else
             {
-                Memory.Add(new MemoryEntry(position, resourceType, currentTime));
+                Memory.Add(new MemoryEntry(item, currentTime));
             }
         }
 
-        public Vector3? RecallRecentResource(string resourceType, float currentTime, float memoryExpirationTime)
+        public Vector3? RecallRecentResource(GeneralItem item, float currentTime, float memoryExpirationTime)
         {
             var rememberedResource = Memory
-                .Where(m => m.ResourceType == resourceType && (currentTime - m.TimeStamp) < memoryExpirationTime)
+                .Where(m => m.item == item && (currentTime - m.TimeStamp) < memoryExpirationTime)
                 .OrderBy(m => currentTime - m.TimeStamp)  // Prefer the most recently seen
                 .FirstOrDefault();
 
             if (rememberedResource != null)
             {
-                return rememberedResource.Position;
+                Node3D rememberedItem = rememberedResource.item as Node3D;
+                return rememberedResource.item.GlobalPosition;
             }
 
             return null;  // No valid memory found
