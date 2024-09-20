@@ -98,7 +98,7 @@ namespace TheValley.Scripts.AI.Behavior
         private bool IsFoodNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for food");
-            CurrentFood = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;
+            CurrentFood = creature.Vision.GetVisibleObjects().Find(body => body.IsInGroup("food")) as Food;
             if (CurrentFood == null) 
             {
                 CurrentFood = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;
@@ -123,18 +123,21 @@ namespace TheValley.Scripts.AI.Behavior
         private void EatFood(Creature creature)
         {
             var herbivore = (Herbivore)creature;
-            GD.Print($"{herbivore.Name} Start eating");
-            herbivore.SetState(CreatureState.Eating);
-            herbivore.Hunger.CurrentDrain = 0.0f;
-            while (!HasEatenEnough(herbivore))
+            if (herbivore.NavigationAgent.IsTargetReached())
             {
-                herbivore.Hunger.Current += herbivore.EatingAmount;
-                CurrentFood.Value -= herbivore.EatingAmount;
-                CurrentFood.Update();
+                GD.Print($"{herbivore.Name} Start eating");
+                herbivore.SetState(CreatureState.Eating);
+                herbivore.Hunger.CurrentDrain = 0.0f;
+                while (!HasEatenEnough(herbivore))
+                {
+                    herbivore.Hunger.Current += herbivore.EatingAmount;
+                    CurrentFood.Value -= herbivore.EatingAmount;
+                    CurrentFood.Update();
+                }
+                herbivore.SetState(CreatureState.Wandering);
+                GD.Print($"{herbivore.Name} has eaten enough and will resume normal behavior.");
+                herbivore.Hunger.CurrentDrain = herbivore.Hunger.Drain;
             }
-            herbivore.SetState(CreatureState.Wandering);
-            GD.Print($"{herbivore.Name} has eaten enough and will resume normal behavior.");
-            herbivore.Hunger.CurrentDrain = herbivore.Hunger.Drain;
         }
 
         private static bool HasEatenEnough(Herbivore herbivore)
