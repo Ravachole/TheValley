@@ -16,9 +16,6 @@ shape = SubResource("BoxShape3D_s42s1")
 mesh = SubResource("BoxMesh_v5d1k")
 skeleton = NodePath("../Collision")
 
-[node name="Camera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 2)
-
 [node name="HerbivorePathFinder" type="NavigationAgent3D" parent="."]
 path_desired_distance = 5.0
 target_desired_distance = 15.27
