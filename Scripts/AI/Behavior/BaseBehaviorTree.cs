@@ -23,7 +23,7 @@ namespace TheValley.Scripts.AI.Behavior
         protected abstract IBehaviorNode CreateIdleSequence();
         protected abstract IBehaviorNode CreateWanderSequence();
 
-    public void Initialize()
+        public void Initialize()
         {
             _root = new Selector(new List<IBehaviorNode>
             {
