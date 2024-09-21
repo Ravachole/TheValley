@@ -79,7 +79,7 @@ namespace TheValley.Scripts.Models
         {
             var rememberedResource = Memory
                 .Where(m => m.item == item && (currentTime - m.TimeStamp) < memoryExpirationTime)
-                .OrderBy(m => currentTime - m.TimeStamp)  // Prefer the most recently seen
+                .OrderBy(m => currentTime - m.TimeStamp)  // Prefer the most recently seen or smelt
                 .FirstOrDefault();
 
             if (rememberedResource != null)

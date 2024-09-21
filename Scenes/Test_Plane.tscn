@@ -61,7 +61,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -144.537, 1, -27.378)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559784, 1, 146.789)
 
 [node name="Herbivore" parent="NavigationRegion3D/Scene" instance=ExtResource("4_ydadr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.3528, 0.532908, -111.189)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.05474, 0.532908, -23.1402)
 
 [node name="Obstacle" parent="NavigationRegion3D/Scene" instance=ExtResource("5_n13k7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, -94)

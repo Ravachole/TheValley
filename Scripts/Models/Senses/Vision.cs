@@ -57,6 +57,7 @@ namespace TheValley.Scripts.Models.Senses
                 if (body is Food || body is Water)
                 {
                     EmitSignal(nameof(ObjectSeen), body); // Emit custom signal
+                    GD.Print("Food or water in vision: " + body.Name);
                 }
             }
         }
@@ -81,21 +82,6 @@ namespace TheValley.Scripts.Models.Senses
             {
                 return false;
             }
-            // Perform a raycast to ensure there are no obstacles in the way
-            var spaceState = GetWorld3D().DirectSpaceState;
-            var parent = GetParent() as Node3D;
-            var query = PhysicsRayQueryParameters3D.Create(GlobalTransform.Origin, body.GlobalTransform.Origin, 1);
-            
-            var result = spaceState.IntersectRay(query);
-
-            // If the ray hits something, it means there's an obstacle in the way
-            if (result.Count > 0)
-            {
-                return false;
-            }
-
-            // If no obstacle was hit, the object is within the vision arc and in line of sight
-            GD.Print(nameof(body) + " Has Been seen");
             return true;
         }
 
