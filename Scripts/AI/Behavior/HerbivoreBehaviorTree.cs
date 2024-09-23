@@ -92,21 +92,33 @@ namespace TheValley.Scripts.AI.Behavior
             var herbivore = (Herbivore)creature;
             bool isHungry = herbivore.Hunger.IsBelowThreshold();
 
+            if (isHungry)
+            {
+                creature.SetState(CreatureState.Hungry);
+            }
             return isHungry;
         }
 
         private bool IsFoodNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for food");
-            CurrentFood = creature.Vision.GetVisibleObjects().Find(body => body.IsInGroup("food")) as Food;
-            // CurrentFood = CurrentFood == null ? creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food : 
-            // creature.Memory.Find(body => body.IsInGroup("food"));
+            CurrentFood = FindClosestNodeInGroup(creature.Vision.GetVisibleObjects(), "food", creature) as Food;
+            if (CurrentFood != null)
+            {
+                return true;
+            }
+            CurrentFood = FindClosestNodeInGroup(creature.Smell.GetSmeltItems(), "food", creature) as Food;
+            if (CurrentFood != null)
+            {
+                return true;
+            }
+            CurrentFood = RememberClosestElementInGroup(creature.Memory, "food", creature) as Food;;
             if (CurrentFood == null) 
             {
-                CurrentFood = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("food")) as Food;
+                return true;
             }
 
-            return CurrentFood != null;
+            return false;
         }
 
         private void MoveToFood(Creature creature)
@@ -152,20 +164,32 @@ namespace TheValley.Scripts.AI.Behavior
             var herbivore = (Herbivore)creature;
             bool isThirsty = herbivore.Thirst.IsBelowThreshold();
             if (isThirsty)
-                GD.Print(nameof(herbivore) + "is thirsty");
+            {
+                creature.SetState(CreatureState.Thirsty);   
+            }
             return isThirsty;
         }
 
         private bool IsWaterNearby(Creature creature)
         {
             GD.Print($"{creature.Name} Start looking for water");
-            CurrentWater = creature.Vision.GetVisibleObjects().Find(body => body.IsInGroup("water")) as Water;
-            if (CurrentWater == null) 
+            CurrentWater = FindClosestNodeInGroup(creature.Vision.GetVisibleObjects(), "water", creature) as Water;
+            if (CurrentFood != null)
             {
-                CurrentWater = creature.Smell.GetSmeltItems().Find(body => body.IsInGroup("water")) as Water;
+                return true;
             }
-            GD.Print(CurrentWater);
-            return CurrentWater != null;
+            CurrentWater = FindClosestNodeInGroup(creature.Smell.GetSmeltItems(), "water", creature) as Water;
+            if (CurrentFood != null)
+            {
+                return true;
+            }
+            CurrentWater = RememberClosestElementInGroup(creature.Memory, "water", creature) as Water;;
+            if (CurrentFood == null) 
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void MoveToWater(Creature creature)
@@ -211,7 +235,9 @@ namespace TheValley.Scripts.AI.Behavior
             var herbivore = (Herbivore)creature;
             bool isTired = herbivore.Stamina.IsBelowThreshold();
             if (isTired)
-                GD.Print(nameof(herbivore) + " is tired");
+            {
+                creature.SetState(CreatureState.Tired);
+            }
             return isTired;
         }
 

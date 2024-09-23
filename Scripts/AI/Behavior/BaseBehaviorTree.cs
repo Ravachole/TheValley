@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using TheValley.Scripts.Models;
+using TheValley.Scripts.Models.Metabolism;
 
 namespace TheValley.Scripts.AI.Behavior
 {
@@ -81,20 +82,61 @@ namespace TheValley.Scripts.AI.Behavior
             }
         }
 
-
-
-        protected bool IsNearTarget(Creature creature, string targetAreaName)
+        /*
+        ** For the moment, this method only get the closest node available. More complexity will come about it with the priority system.
+        ** Or probably in another method. Is this the place for it ? idk
+        */
+        public Node3D FindClosestNodeInGroup(List<Node3D> nodes, string groupName, Creature creature)
         {
-            var targetArea = creature.GetNode<Area3D>(targetAreaName);
-            var target = targetArea.GetOverlappingBodies().FirstOrDefault();
+            Node3D closestNode = null;
+            float closestDistance = float.MaxValue;
 
-            if (target != null)
-            {
-                float distance = creature.GlobalTransform.Origin.DistanceTo(target.GlobalTransform.Origin);
-                GD.Print("herbivore is at " + distance + "from resource");
-                return distance < 15.0f; 
+            if (nodes is null) {
+                return null;
             }
-            return false;
+            
+            foreach (Node3D node in nodes)
+            {
+                if (node.IsInGroup(groupName))
+                {
+                    float distance = node.GlobalPosition.DistanceTo(creature.GlobalPosition);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestNode = node;
+                    }
+                }
+            }
+            return closestNode;
+        }
+
+        /*
+        ** For now it's quite similar to find the closest element in node3D list, but it will differ too with priority and 
+        ** time handling
+        */
+        public Node3D RememberClosestElementInGroup(List<MemoryEntry> nodes, string groupName, Creature creature)
+        {
+            Node3D closestNode = null;
+            float closestDistance = float.MaxValue;
+
+            if (nodes is null) {
+                return null;
+            }
+            
+            foreach (MemoryEntry node in nodes)
+            {
+                if (node.item.IsInGroup(groupName))
+                {
+                    float distance = node.item.GlobalPosition.DistanceTo(creature.GlobalPosition);
+                    if (distance < closestDistance)
+                    {
+
+                        closestDistance = distance;
+                        closestNode = node.item as Node3D;
+                    }
+                }
+            }
+            return closestNode;
         }
     }
 }

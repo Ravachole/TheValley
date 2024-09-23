@@ -11,12 +11,16 @@ namespace TheValley.Scripts.Models
     public enum CreatureState
     {
         Idle,
+        Hungry,
+        Thirsty,
+        Tired,
         Eating,
         Drinking,
         Sleeping,
         Wandering,
         Exploring,
-        Smelling
+        Smelling,
+        Running
     }
     public abstract partial class Creature : CharacterBody3D
     {
