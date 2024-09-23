@@ -6,7 +6,7 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_v5d1k"]
 
-[node name="Herbivore" type="CharacterBody3D"]
+[node name="Herbivore" type="CharacterBody3D" groups=["Herbivore"]]
 script = ExtResource("1_gngu6")
 
 [node name="Collision" type="CollisionShape3D" parent="."]
@@ -23,3 +23,6 @@ navigation_layers = 3
 debug_enabled = true
 debug_path_custom_color = Color(1, 0.333333, 1, 1)
 debug_path_custom_point_size = 6.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.999945, 0.00392926, -0.00974435, -9.22165e-10, 0.927438, 0.373975, 0.0105067, 0.373955, -0.927387, 0, 1.44792, -1.77676)
