@@ -45,7 +45,7 @@ namespace TheValley.Scripts.Models
             //Update behavior tree
             BehaviorTree.Update(this);
             // Apply the behavior tree velocity with state check
-            if (CurrentState != CreatureState.Wandering)
+            if (CurrentState != CreatureState.Wandering && CurrentState != CreatureState.Hungry && CurrentState != CreatureState.Thirsty && CurrentState != CreatureState.Tired)
             {
                 Velocity = Vector3.Zero;
             }
