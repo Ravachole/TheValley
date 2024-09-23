@@ -85,6 +85,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.05474, 1.53291, -23.1402)
 [node name="Herbivore2" parent="." instance=ExtResource("4_ydadr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.02383, 0)
 
+[node name="Herbivore3" parent="." instance=ExtResource("4_ydadr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.7913, 2.06787, 0)
+
 [node name="water" parent="." instance=ExtResource("3_jhp1f")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 10.4505, -129.491)
 

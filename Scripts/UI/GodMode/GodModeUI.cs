@@ -35,7 +35,7 @@ public partial class GodModeUI : Control
         foreach (Creature creature in creatures)
         {
             HBoxContainer row = new HBoxContainer();
-            Label nameLabel = new Label { Text = $"{creature.Name} - Position: {creature.GlobalPosition}" };
+            Label nameLabel = new Label { Text = $"{creature.Name}" };
             row.AddChild(nameLabel);
 
             Label hungerLabel = new Label { Text = $"Hunger: {Mathf.Round(creature.Hunger.Current)}" };
@@ -47,7 +47,7 @@ public partial class GodModeUI : Control
             row.AddChild(thirstLabel);
             row.AddChild(staminaLabel);
             row.AddChild(StatusLabel);
-            
+
             Button switchToCameraButton = new Button { Text = "Follow Camera" };
             switchToCameraButton.Pressed += () => OnSwitchCameraPressed(creature);
             row.AddChild(switchToCameraButton);
