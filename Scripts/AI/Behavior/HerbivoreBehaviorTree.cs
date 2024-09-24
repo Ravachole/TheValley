@@ -94,7 +94,10 @@ namespace TheValley.Scripts.AI.Behavior
 
             if (isHungry)
             {
-                creature.SetState(CreatureState.Hungry);
+                if (!creature.CreatureStatuses.Contains(CreatureStatus.Hungry))
+                {
+                    creature.CreatureStatuses.Add(CreatureStatus.Hungry);
+                }
             }
             return isHungry;
         }
@@ -148,6 +151,7 @@ namespace TheValley.Scripts.AI.Behavior
                     CurrentFood.Value -= herbivore.EatingAmount;
                     CurrentFood.Update();
                 }
+                creature.CreatureStatuses.Remove(CreatureStatus.Hungry);
                 herbivore.SetState(CreatureState.Wandering);
                 GD.Print($"{herbivore.Name} has eaten enough and will resume normal behavior.");
                 herbivore.Hunger.CurrentDrain = herbivore.Hunger.Drain;
@@ -165,7 +169,10 @@ namespace TheValley.Scripts.AI.Behavior
             bool isThirsty = herbivore.Thirst.IsBelowThreshold();
             if (isThirsty)
             {
-                creature.SetState(CreatureState.Thirsty);   
+                  if (!creature.CreatureStatuses.Contains(CreatureStatus.Thirsty))
+                {
+                    creature.CreatureStatuses.Add(CreatureStatus.Thirsty);
+                }
             }
             return isThirsty;
         }
@@ -219,6 +226,7 @@ namespace TheValley.Scripts.AI.Behavior
                     CurrentWater.Value -= herbivore.EatingAmount;
                     CurrentWater.Update();
                 }
+                creature.CreatureStatuses.Remove(CreatureStatus.Thirsty);
                 herbivore.SetState(CreatureState.Wandering);
                 GD.Print($"{herbivore.Name} has drunk enough and will resume normal behavior.");
                 herbivore.Thirst.CurrentDrain = herbivore.Thirst.Drain;
@@ -236,7 +244,10 @@ namespace TheValley.Scripts.AI.Behavior
             bool isTired = herbivore.Stamina.IsBelowThreshold();
             if (isTired)
             {
-                creature.SetState(CreatureState.Tired);
+                if (!creature.CreatureStatuses.Contains(CreatureStatus.Tired))
+                {
+                    creature.CreatureStatuses.Add(CreatureStatus.Tired);
+                }
             }
             return isTired;
         }
@@ -251,6 +262,7 @@ namespace TheValley.Scripts.AI.Behavior
             {
                 herbivore.Stamina.Current += 10.0f;
             }
+            creature.CreatureStatuses.Remove(CreatureStatus.Tired);
             herbivore.SetState(CreatureState.Wandering);
             GD.Print($"{herbivore.Name} has Slept enough and will resume normal behavior.");
             herbivore.Stamina.CurrentDrain = herbivore.Stamina.Drain;

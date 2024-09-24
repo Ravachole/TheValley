@@ -1,5 +1,7 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 using TheValley.Scripts.Models;
 
 public partial class GodModeUI : Control
@@ -38,15 +40,18 @@ public partial class GodModeUI : Control
             Label nameLabel = new Label { Text = $"{creature.Name}" };
             row.AddChild(nameLabel);
 
+            string statusesList = string.Join(" / ");
             Label hungerLabel = new Label { Text = $"Hunger: {Mathf.Round(creature.Hunger.Current)}" };
             Label thirstLabel = new Label { Text = $"Thirst: {Mathf.Round(creature.Thirst.Current)}" };
             Label staminaLabel = new Label { Text = $"Stamina: {Mathf.Round(creature.Stamina.Current)}" };
-            Label StatusLabel = new Label { Text = $"Status: {creature.CurrentState}" };
+            Label StateLabel = new Label { Text = $"State: {creature.CurrentState}" };
+            Label StatusLabel = new Label { Text= $"Status: {statusesList}" };
             
             row.AddChild(hungerLabel);
             row.AddChild(thirstLabel);
             row.AddChild(staminaLabel);
-            row.AddChild(StatusLabel);
+            row.AddChild(StateLabel);
+             row.AddChild(StatusLabel);
 
             Button switchToCameraButton = new Button { Text = "Follow Camera" };
             switchToCameraButton.Pressed += () => OnSwitchCameraPressed(creature);
