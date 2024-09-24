@@ -69,7 +69,6 @@ namespace TheValley.Scripts.Models.Senses
         {
             if (body is Food || body is Water)
             {
-                GD.Print("Smell detected and added to list: " + body.Name);
                 EmitSignal(nameof(ObjectSmelt), body); // Emit custom signal
             }
         }
