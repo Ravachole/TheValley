@@ -40,7 +40,8 @@ public partial class GodModeUI : Control
             Label nameLabel = new Label { Text = $"{creature.Name}" };
             row.AddChild(nameLabel);
 
-            string statusesList = string.Join(" / ");
+            string statusesList = string.Join(" / ", creature.CreatureStatuses);
+
             Label hungerLabel = new Label { Text = $"Hunger: {Mathf.Round(creature.Hunger.Current)}" };
             Label thirstLabel = new Label { Text = $"Thirst: {Mathf.Round(creature.Thirst.Current)}" };
             Label staminaLabel = new Label { Text = $"Stamina: {Mathf.Round(creature.Stamina.Current)}" };

@@ -4,6 +4,8 @@ using System.Linq;
 using Godot;
 using TheValley.Scripts.Models;
 using TheValley.Scripts.Models.Metabolism;
+using TheValley.Scripts.Models.Item;
+using TheValley.Scripts.Models.Item.Consumable;
 
 namespace TheValley.Scripts.AI.Behavior
 {
@@ -137,6 +139,67 @@ namespace TheValley.Scripts.AI.Behavior
                 }
             }
             return closestNode;
+        }
+
+        public void MoveToTarget<T>(Creature creature, T target) where T : GeneralItem
+        {
+            if (target != null)
+            {
+                creature.NavigationAgent.TargetPosition = target.GlobalTransform.Origin;
+                Vector3 nextPosition = creature.NavigationAgent.GetNextPathPosition();
+                Vector3 direction = (nextPosition - creature.GlobalPosition).Normalized();
+                creature.Velocity = direction * creature.Speed;
+                GD.Print($"{creature.Name} Start moving to {typeof(T).Name} at {creature.Velocity}");
+            }
+        }
+
+        public void ConsumeResource(Creature creature, GeneralItem resource, 
+        Func<Creature, bool> hasConsumedEnough,
+        Action<Creature> stopDrain,
+        Action<Creature> restoreDrain,
+        Action<Creature> incrementResource,
+        Action<Creature> decrementResourceValue, 
+        CreatureStatus status)
+        {
+            if (creature.NavigationAgent.IsTargetReached())
+            {
+                GD.Print($"{creature.Name} starts consuming {resource.Name}");
+
+                // Set the creature to the appropriate state (e.g., Eating, Drinking)
+                creature.SetState(CreatureState.Eating);  // or Drinking, depending on the resource
+
+                // Disable the drain while consuming
+                stopDrain(creature);
+
+                // Simulate consuming the resource
+                while (!hasConsumedEnough(creature))
+                {
+                    incrementResource(creature);  // Increment the hunger/thirst
+                    decrementResourceValue(creature);  // Reduce the resource's value
+                    resource.Update();  // Update the resource state (FULL, CONSUMED, DEPLETED)
+                }
+
+                // Remove the status once enough has been consumed
+                creature.CreatureStatuses.Remove(status);
+
+                // Set the creature back to its normal behavior (e.g., Wandering)
+                creature.SetState(CreatureState.Wandering);
+                GD.Print($"{creature.Name} has consumed enough {resource.Name} and will resume normal behavior.");
+
+                // Restore the normal drain rate for the resource
+                restoreDrain(creature);
+            }
+        }
+
+
+        public bool CheckAndSetStatus(Creature creature, Func<Creature, bool> isBelowThreshold, CreatureStatus status)
+        {
+            bool isConditionMet = isBelowThreshold(creature);
+            if (isConditionMet && !creature.CreatureStatuses.Contains(status))
+            {
+                creature.CreatureStatuses.Add(status);
+            }
+            return isConditionMet;
         }
     }
 }

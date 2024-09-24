@@ -26,6 +26,9 @@ namespace TheValley.Scripts.Models.Senses
             // Initialize the vision area
             _visionArea = new Area3D();
             _visionArea.Monitoring = true;
+            _visionArea.SetCollisionMaskValue(1, true);
+            _visionArea.SetCollisionMaskValue(2, true);
+            
 
             // Create and configure the CollisionShape3D with a SphereShape3D
             var collisionShape = new CollisionShape3D();
@@ -52,12 +55,10 @@ namespace TheValley.Scripts.Models.Senses
         {
             if (IsWithinVisionArc(body))
             {
-                GD.Print("Object in vision: " + body.Name);
                 // Check if the object is food or water and emit the custom signal
-                if (body is Food || body is Water)
+                if (body.IsInGroup("food") || body.IsInGroup("water"))
                 {
                     EmitSignal(nameof(ObjectSeen), body); // Emit custom signal
-                    GD.Print("Food or water in vision: " + body.Name);
                 }
             }
         }
@@ -67,7 +68,6 @@ namespace TheValley.Scripts.Models.Senses
             if (_visibleObjects.Exists(node => node.Name == body.Name))
             {
                 _visibleObjects.Remove(body);
-                GD.Print("Object left vision: " + body.Name);
             }
         }
         // Define a vision arc from the sphere colliderSphere3D
@@ -82,6 +82,24 @@ namespace TheValley.Scripts.Models.Senses
             {
                 return false;
             }
+
+            // Create a raycast to check for obstacles
+            var spaceState = GetWorld3D().DirectSpaceState;
+            var raycastParams = new PhysicsRayQueryParameters3D
+            {
+                From = GlobalTransform.Origin,
+                To = body.GlobalTransform.Origin,
+                CollisionMask = 1, // Collision layer for obstacles
+            };
+
+            var result = spaceState.IntersectRay(raycastParams);
+            
+            // If there's a hit and it's not the target resource, return false
+            if (result.Count > 0)
+            {
+                return false;
+            }
+
             return true;
         }
 

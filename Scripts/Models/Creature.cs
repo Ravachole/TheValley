@@ -33,6 +33,8 @@ namespace TheValley.Scripts.Models
         public Hunger Hunger { get; private set; }
         public Stamina Stamina { get; private set; }
         public float EatingAmount { get;set; }
+        public float DringkingAmount  {get; set;}
+        public float StaminaRegeneration {get; set;}
         public List<MemoryEntry> Memory = new List<MemoryEntry>();
         // End Metabolism stats
 
@@ -61,7 +63,10 @@ namespace TheValley.Scripts.Models
             Thirst = new Thirst();
             Hunger = new Hunger();
             Stamina = new Stamina();
+            
             EatingAmount = 5.0f;
+            DringkingAmount = 5.0f;
+            StaminaRegeneration = 10.0f;
         }
         public void SetState(CreatureState state)
         {
