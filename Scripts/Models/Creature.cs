@@ -11,20 +11,23 @@ namespace TheValley.Scripts.Models
     public enum CreatureState
     {
         Idle,
-        Hungry,
-        Thirsty,
-        Tired,
         Eating,
         Drinking,
         Sleeping,
         Wandering,
-        Exploring,
         Smelling,
         Running
+    }
+    public enum CreatureStatus
+    {
+        Hungry,
+        Thirsty,
+        Tired
     }
     public abstract partial class Creature : CharacterBody3D
     {
         public CreatureState CurrentState { get; set; } = CreatureState.Wandering;
+        public List<CreatureStatus> CreatureStatuses = new List<CreatureStatus>();
         // Metabolism stats
         public Thirst Thirst { get; private set; }
         public Hunger Hunger { get; private set; }
