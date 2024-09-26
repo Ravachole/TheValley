@@ -88,20 +88,6 @@ namespace TheValley.Scripts.AI.Behavior
             GD.Print($"{creature.Name} is idling");
         }
 
-        private T FindClosestResource<T>(Creature creature, string resourceGroup) where T : GeneralItem
-        {
-            var resource = FindClosestNodeInGroup(creature.Vision.GetVisibleObjects(), resourceGroup, creature) as T;
-            if (resource != null)
-                return resource;
-
-            resource = FindClosestNodeInGroup(creature.Smell.GetSmeltItems(), resourceGroup, creature) as T;
-            if (resource != null)
-                return resource;
-
-            resource = RememberClosestElementInGroup(creature.Memory, resourceGroup, creature) as T;
-            return resource;
-        }
-
         private bool IsHungry(Creature creature)
         {
             return CheckAndSetStatus(creature, c => ((Herbivore)c).Hunger.IsBelowThreshold(), CreatureStatus.Hungry);
