@@ -76,7 +76,7 @@ namespace TheValley.Scripts.Models
         public void AddToMemory(GeneralItem item, float currentTime)
         {
             // Check if this resource was already remembered, and update it
-            var existingMemory = Memory.FirstOrDefault(m => m.item == item);
+            var existingMemory = Memory.Find(m => m.item == item);
             if (existingMemory != null)
             {
                 existingMemory.TimeStamp = currentTime; // Update timestamp
@@ -96,7 +96,6 @@ namespace TheValley.Scripts.Models
 
             if (rememberedResource != null)
             {
-                Node3D rememberedItem = rememberedResource.item as Node3D;
                 return rememberedResource.item.GlobalPosition;
             }
 

@@ -25,7 +25,6 @@ namespace TheValley.Scripts.AI.Behavior
                 new Sequence(new List<IBehaviorNode>
                 {
                     new ActionNode(MoveToFood),
-                    // new ConditionNode(creature => IsNearTarget(creature, "FoodDetectionArea")),
                     new ActionNode(EatFood)
                 })
             });
@@ -40,7 +39,6 @@ namespace TheValley.Scripts.AI.Behavior
                 new Sequence(new List<IBehaviorNode>
                 {
                     new ActionNode(MoveToWater),
-                    // new ConditionNode(creature => IsNearTarget(creature, "WaterDetectionArea")),
                     new ActionNode(DrinkWater)
                 })
             });
@@ -118,11 +116,6 @@ namespace TheValley.Scripts.AI.Behavior
             CreatureStatus.Hungry);
         }
 
-        private static bool HasEatenEnough(Herbivore herbivore)
-        {
-            return herbivore.Hunger.IsFull();
-        }
-
         private bool IsThirsty(Creature creature)
         {
            return CheckAndSetStatus(creature, c => ((Herbivore)c).Thirst.IsBelowThreshold(), CreatureStatus.Thirsty);
@@ -152,17 +145,12 @@ namespace TheValley.Scripts.AI.Behavior
             CreatureStatus.Thirsty);
         }
 
-        private static bool HasDrunkEnough(Herbivore herbivore)
-        {
-            return herbivore.Thirst.IsFull();
-        }
-
         private bool IsTired(Creature creature)
         {
             return CheckAndSetStatus(creature, c => ((Herbivore)c).Stamina.IsBelowThreshold(), CreatureStatus.Tired);
         }
 
-        private void IsSleeping(Creature creature)
+        private static void IsSleeping(Creature creature)
         {
             var herbivore = (Herbivore)creature;
 
