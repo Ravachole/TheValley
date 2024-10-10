@@ -88,7 +88,7 @@ namespace TheValley.Scripts.AI.Behavior
         ** For the moment, this method only get the closest node available. More complexity will come about it with the priority system.
         ** Or probably in another method. Is this the place for it ? idk
         */
-        public Node3D FindClosestNodeInGroup(List<Node3D> nodes, string groupName, Creature creature)
+        public static Node3D FindClosestNodeInGroup(List<Node3D> nodes, string groupName, Creature creature)
         {
             Node3D closestNode = null;
             float closestDistance = float.MaxValue;
@@ -116,7 +116,7 @@ namespace TheValley.Scripts.AI.Behavior
         ** For now it's quite similar to find the closest element in node3D list, but it will differ too with priority and 
         ** time handling
         */
-        public Node3D RememberClosestElementInGroup(List<MemoryEntry> nodes, string groupName, Creature creature)
+        public static Node3D RememberClosestElementInGroup(List<MemoryEntry> nodes, string groupName, Creature creature)
         {
             Node3D closestNode = null;
             float closestDistance = float.MaxValue;
@@ -141,7 +141,7 @@ namespace TheValley.Scripts.AI.Behavior
             return closestNode;
         }
 
-        public void MoveToTarget<T>(Creature creature, T target) where T : GeneralItem
+        public static void MoveToTarget<T>(Creature creature, T target) where T : GeneralItem
         {
             if (target != null)
             {
@@ -153,7 +153,7 @@ namespace TheValley.Scripts.AI.Behavior
             }
         }
 
-        public void ConsumeResource(Creature creature, GeneralItem resource, 
+        public static void ConsumeResource(Creature creature, GeneralItem resource, 
         Func<Creature, bool> hasConsumedEnough,
         Action<Creature> stopDrain,
         Action<Creature> restoreDrain,
@@ -192,7 +192,7 @@ namespace TheValley.Scripts.AI.Behavior
         }
 
 
-        public bool CheckAndSetStatus(Creature creature, Func<Creature, bool> isBelowThreshold, CreatureStatus status)
+        public static bool CheckAndSetStatus(Creature creature, Func<Creature, bool> isBelowThreshold, CreatureStatus status)
         {
             bool isConditionMet = isBelowThreshold(creature);
             if (isConditionMet && !creature.CreatureStatuses.Contains(status))
